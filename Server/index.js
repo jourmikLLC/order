@@ -20,16 +20,13 @@ const MONGO_URI = process.env.MONGO_URI;
 
 // Connect to MongoDB
 mongoose
-  .connect('mongodb+srv://jourmikmak:jourmik@inventory.iy3xoho.mongodb.net/?retryWrites=true&w=majority&appName=inventory')
+  .connect(MONGO_URI)
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.log(err));
 
 // Routes
 app.use("/api/orders", orderRoutes);
-app.get("/test", (req, res) => {
-    res.json({ message: "Server is up and running!" });
-  });
-  
+
 // Basic route for testing
 app.get("/", (req, res) => {
   res.send("Server is running...");

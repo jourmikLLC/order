@@ -1,17 +1,18 @@
 import axios from "axios";
 
 const API = axios.create({
-    baseURL: '', // Change to your server URL in production
-  });
+  baseURL: "/api", // Uses Vite's proxy
+});
+
 export const getServerStatus = async () => {
   const response = await API.get("/");
   return response.data;
 };
 
 export const createOrder = async (orderData) => {
-  return await API.post("https://order-two-gamma.vercel.app/api/orders", orderData);
+  return await API.post("/orders", orderData);
 };
 
 export const getOrders = async () => {
-  return await API.get("https://order-two-gamma.vercel.app/api/orders");
+  return await API.get("/orders");
 };
