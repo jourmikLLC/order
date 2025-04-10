@@ -1,0 +1,7 @@
+.custom-select .ant-select-selector {
+  font-size: 32px !important; /* Ensure font size increases */
+}
+
+.custom-select .ant-select-item-option {
+  font-size: 32px !important; /* Apply font size for options as well */
+}

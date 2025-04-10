@@ -1,0 +1,79 @@
+import React from "react";
+import { Link } from "react-router-dom";
+import { Button, Card } from "antd";  // Importing Ant Design components
+import { toast } from "react-hot-toast";  // Importing React Hot Toast
+
+const HomePage = () => {
+  // Show success toast on button click
+  const handleCreateOrderClick = () => {
+    toast.success("Navigating to create a new order...");
+  };
+
+  const handleOrdersDetailsClick = () => {
+    toast.success("Navigating to orders details...");
+  };
+
+  return (
+    <div className="container-fluid" style={{ height:"100vh", paddingTop: "60px", backgroundColor: "#f4f6f9" }}>
+      <div className="row justify-content-center">
+        <div className="col-md-8">
+          <Card
+  title={<span style={{ color:"#02335f",fontSize: "32px", fontWeight: "bold" }}>Welcome to the Order Management System</span>}
+  style={{
+              borderRadius: "12px",
+              boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.1)",
+              padding: "30px",
+              fontSize: "26px",
+              backgroundColor: "#fff",
+            }}
+          >
+            <h4 className="text-center" style={{ color: "#34495e", fontSize: "20px", marginBottom: "30px" }}>
+              Manage your orders with ease
+            </h4>
+
+            <div className="text-center">
+              <Link to="/order-entry">
+                <Button
+                  type="primary"
+                  size="large"
+                  block
+                  onClick={handleCreateOrderClick}
+                  style={{
+                    marginBottom: "15px",
+                    borderRadius: "8px",
+                    fontSize: "18px",
+                    backgroundColor: "#2980b9",
+                    borderColor: "#2980b9",
+                  }}
+                >
+                  Create New Order
+                </Button>
+              </Link>
+            </div>
+
+            <div className="text-center">
+              <Link to="/orders-details">
+                <Button
+                  type="default"
+                  size="large"
+                  block
+                  onClick={handleOrdersDetailsClick}
+                  style={{
+                    borderRadius: "8px",
+                    fontSize: "18px",
+                    backgroundColor: "#f1c40f",
+                    borderColor: "#f1c40f",
+                  }}
+                >
+                  View Orders Details
+                </Button>
+              </Link>
+            </div>
+          </Card>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default HomePage;
