@@ -23,6 +23,6 @@ const orderSchema = new mongoose.Schema({
     default: "pending",  // Default status is 'pending'
   },
 }, { timestamps: true }); // Automatically adds createdAt and updatedAt fields
+const Order = mongoose.models.Order || mongoose.model('Order', orderSchema);
 
- export default Order = mongoose.model("Order", orderSchema);
-
+export default Order;
