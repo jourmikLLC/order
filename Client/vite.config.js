@@ -7,7 +7,7 @@ export default defineConfig({
 
   server: {
     proxy: {
-      "/api": "https://order-two-gamma.vercel.app/",
+      "/api": "https://order-two-gamma.vercel.app",
     },
   },
 });
