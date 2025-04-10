@@ -11,6 +11,25 @@
         "src": "/(.*)",
         "dest": "/index.js"
       }
+    ],
+    "headers": [
+      {
+        "source": "/(.*)",  // Apply headers to all routes
+        "headers": [
+          {
+            "key": "Access-Control-Allow-Origin",
+            "value": "*"  // You can restrict this to your frontend domain, e.g. "http://localhost:3000"
+          },
+          {
+            "key": "Access-Control-Allow-Methods",
+            "value": "GET, POST, PUT, DELETE"
+          },
+          {
+            "key": "Access-Control-Allow-Headers",
+            "value": "Content-Type, Authorization"
+          }
+        ]
+      }
     ]
   }
   

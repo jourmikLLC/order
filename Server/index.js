@@ -7,6 +7,8 @@ import orderRoutes from "./Routes/OrderRoutes.js";
 dotenv.config();
 const app = express();
 
+// CORS configuration to allow requests from your frontend
+
 app.use(express.json());
 app.use(cors());
 
