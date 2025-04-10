@@ -12,7 +12,7 @@ function OrderDetails() {
     // Fetch the list of orders from the backend
     const fetchOrders = async () => {
       try {
-        const response = await fetch("/api/orders");
+        const response = await fetch("https://order-two-gamma.vercel.app/api/orders");
         const data = await response.json();
         setOrders(data);  // Set orders in the state
         setFilteredOrders(data);  // Initially show all orders

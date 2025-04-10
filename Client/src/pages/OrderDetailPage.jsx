@@ -13,7 +13,7 @@ function OrderDetailPage() {
     // Fetch the order details based on orderId
     const fetchOrderDetails = async () => {
       try {
-        const response = await fetch(`/api/orders/${orderId}`);
+        const response = await fetch(`https://order-two-gamma.vercel.app/api/orders/${orderId}`);
         const data = await response.json();
         setOrder(data);  // Set the order details in state
       } catch (error) {
