@@ -14,11 +14,11 @@
     ],
     "headers": [
       {
-        "source": "/(.*)",  // Apply headers to all routes
+        "source": "/(.*)",  
         "headers": [
           {
             "key": "Access-Control-Allow-Origin",
-            "value": "*"  // You can restrict this to your frontend domain, e.g. "http://localhost:3000"
+            "value": "*"
           },
           {
             "key": "Access-Control-Allow-Methods",
