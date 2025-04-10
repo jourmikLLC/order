@@ -11,7 +11,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors({
-    origin: "https://order-inventory.vercel.app",  // For testing, change "*" to your frontend URL for production
+    origin: "*",  // For testing, change "*" to your frontend URL for production
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
   }));

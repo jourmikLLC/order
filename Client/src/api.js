@@ -1,9 +1,8 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "/api", // Uses Vite's proxy
-});
-
+    baseURL: 'https://order-two-gamma.vercel.app/api', // Change to your server URL in production
+  });
 export const getServerStatus = async () => {
   const response = await API.get("/");
   return response.data;
