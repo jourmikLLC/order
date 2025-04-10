@@ -9,9 +9,9 @@ export const getServerStatus = async () => {
 };
 
 export const createOrder = async (orderData) => {
-  return await API.post("https://order-two-gamma.vercel.app//orders", orderData);
+  return await API.post("https://order-two-gamma.vercel.app/api/orders", orderData);
 };
 
 export const getOrders = async () => {
-  return await API.get("https://order-two-gamma.vercel.app//orders");
+  return await API.get("https://order-two-gamma.vercel.app/api/orders");
 };
