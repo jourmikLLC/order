@@ -7,7 +7,7 @@ import react from '@vitejs/plugin-react'
   server: {
     proxy: {
       '/api': {
-        target: 'https://order-two-gamma.vercel.app/',
+        target: 'https://order-two-gamma.vercel.app',
         changeOrigin: true, // For handling CORS issues
         secure: false, // Ensure it's true if you're using HTTPS
         logLevel: 'debug', // Log proxy actions for debugging
