@@ -10,8 +10,11 @@ const app = express();
 // CORS configuration to allow requests from your frontend
 
 app.use(express.json());
-app.use(cors());
-
+app.use(cors({
+    origin: "https://order-inventory.vercel.app",  // For testing, change "*" to your frontend URL for production
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+  }));
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 
