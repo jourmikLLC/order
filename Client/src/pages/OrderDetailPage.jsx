@@ -28,7 +28,7 @@ function OrderDetailPage() {
   const handleDispatch = async () => {
     try {
       // Update order status to dispatched
-      const response = await fetch(`/api/orders/${orderId}/dispatch`, {
+      const response = await fetch(`https://order-two-gamma.vercel.app/api/orders/${orderId}/dispatch`, {
         method: "PUT",
       });
       const updatedOrder = await response.json();
