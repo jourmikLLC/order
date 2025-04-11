@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Input, Button, Form, Card } from "antd";
 import toast from "react-hot-toast";
 import axios from "axios";
+const API_URL = import.meta.env.VITE_API_URL; // Read from .env
 
 function LoginPage() {
   const [credentials, setCredentials] = useState({
@@ -13,10 +14,7 @@ function LoginPage() {
 
   const handleLogin = async () => {
     try {
-      const { data } = await axios.post(
-        "http://localhost:5000/api/login",
-        credentials
-      );
+      const { data } = await axios.post(`${API_URL}/login`, credentials);
       localStorage.setItem("token", data.token);
       navigate("/");
       toast.success("Login successful!");
