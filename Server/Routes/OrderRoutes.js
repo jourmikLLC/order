@@ -26,7 +26,7 @@ const validateOrderInput = (req, res, next) => {
 // ✅ Create Order
 router.post("/", validateOrderInput, async (req, res) => {
   try {
-    const { customerName, trackingId, entries } = req.body;
+    const { customerName, trackingId, entries, orderId } = req.body; // Make sure you're extracting orderId here
 
     // Check if tracking ID already exists
     const existingOrder = await Order.findOne({ trackingId });
@@ -34,20 +34,22 @@ router.post("/", validateOrderInput, async (req, res) => {
       return res.status(400).json({ message: "Tracking ID already exists. Please use a unique tracking ID." });
     }
 
+    // Create a new order with all fields including orderId
     const newOrder = new Order({
       customerName,
       trackingId,
-      orderId,
+      orderId, // Include orderId here
       entries,
     });
 
-    await newOrder.save();
-    res.status(201).json(newOrder);
+    await newOrder.save(); // Save the new order to the database
+    res.status(201).json(newOrder); // Return the saved order
   } catch (err) {
     console.error("Error saving order:", err);
     res.status(500).json({ message: "Error saving order", error: err.message });
   }
 });
+
 
 // ✅ Get All Orders
 router.get("/", async (req, res) => {
