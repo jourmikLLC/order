@@ -84,12 +84,14 @@ const HomePage = () => {
                   onClick={handleOrdersDetailsClick}
                   style={{
                     borderRadius: "8px",
+                    marginBottom: "15px",
+
                     fontSize: "18px",
                     backgroundColor: "#f1c40f",
                     borderColor: "#f1c40f",
                   }}
                 >
-                  View Orders Details
+                  See All Orders
                 </Button>
               </Link>
             </div>
@@ -104,7 +106,7 @@ const HomePage = () => {
                   style={{
                     borderRadius: "8px",
                     fontSize: "18px",
-                    backgroundColor: "#f1c40f",
+                    backgroundColor: "rgb(15 241 92)",
                     borderColor: "#f1c40f",
                   }}
                 >
