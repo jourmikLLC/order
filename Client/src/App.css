@@ -28,3 +28,7 @@
   width: 30px;
   height: 30px;
 }
+button{
+    font-weight: 700 !important;
+    color: white !important;
+}

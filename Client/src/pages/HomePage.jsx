@@ -128,7 +128,7 @@ const HomePage = () => {
                     borderColor: "#f6c40f",
                   }}
                 >
-                  Scan Orders (scanner)
+                  Scan Orders (For Warehouse Scanner)
                 </Button>
               </Link>
             </div>
