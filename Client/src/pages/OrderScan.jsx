@@ -220,7 +220,7 @@ function OrdersScan() {
               }}
               onMouseEnter={(e) => (e.target.style.backgroundColor = "#40a9ff")}
               onMouseLeave={(e) => (e.target.style.backgroundColor = "#1890ff")}
-              onClick={fetchOrder}
+              onClick={verifyPartNumber}
             >
               ✅ Verify Part Number
             </Button>
