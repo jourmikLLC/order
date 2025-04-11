@@ -1,28 +1,20 @@
 import mongoose from "mongoose";
 
+const partNumberSchema = new mongoose.Schema({
+  number: { type: String, required: true },
+});
+
 const orderSchema = new mongoose.Schema({
-  customerName: {
-    type: String,
-    required: true,
+  customerName: { type: String, required: true },
+  trackingId: { type: String, required: true, unique: true },
+  partNumbers: [partNumberSchema],
+  status: { 
+    type: String, 
+    enum: ["Pending", "Dispatched"], 
+    default: "Pending" 
   },
-  partNumber: {
-    type: String,
-    required: true,
-  },
-  quantity: {
-    type: Number,
-    required: true,
-  },
-  price: {
-    type: Number,
-    required: true,
-  },
-  status: {
-    type: String,
-    enum: ["pending", "dispatched"], // This restricts status to these two values
-    default: "pending",  // Default status is 'pending'
-  },
-}, { timestamps: true }); // Automatically adds createdAt and updatedAt fields
-const Order = mongoose.models.Order || mongoose.model('Order', orderSchema);
+}, { timestamps: true });
+
+const Order = mongoose.model("Order", orderSchema);
 
 export default Order;

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";  // useNavigate for navigation
-import { Button, Card } from "antd";  // Ant Design components
-import { ArrowLeftOutlined } from "@ant-design/icons";  // Ant Design icon
-import { toast } from "react-hot-toast";  // For toast notifications
+import { useParams, useNavigate } from "react-router-dom";  
+import { Button, Card } from "antd";  
+import { ArrowLeftOutlined } from "@ant-design/icons";  
+import { toast } from "react-hot-toast";  
 
 function OrderDetailPage() {
-  const { orderId } = useParams();  // Extract orderId from URL
+  const { orderId } = useParams();  
   const [order, setOrder] = useState(null);
-  const navigate = useNavigate();  // Hook for navigation
+  const navigate = useNavigate();  
 
   useEffect(() => {
     // Fetch the order details based on orderId
@@ -15,7 +15,7 @@ function OrderDetailPage() {
       try {
         const response = await fetch(`https://order-two-gamma.vercel.app/api/orders/${orderId}`);
         const data = await response.json();
-        setOrder(data);  // Set the order details in state
+        setOrder(data);  
       } catch (error) {
         console.error("Error fetching order details:", error);
         toast.error("Failed to fetch order details.");
@@ -33,9 +33,9 @@ function OrderDetailPage() {
       });
       const updatedOrder = await response.json();
 
-      if (updatedOrder.status === "dispatched") {
+      if (updatedOrder.status === "Dispatched") {
         toast.success("Order dispatched successfully!");
-        setOrder(updatedOrder);  // Update the order state to reflect new status
+        setOrder(updatedOrder);  
       } else {
         toast.error("Failed to dispatch order.");
       }
@@ -46,7 +46,7 @@ function OrderDetailPage() {
   };
 
   const goBack = () => {
-    navigate(-1);  // Navigate to the previous page
+    navigate(-1);  
   };
 
   if (!order) return <div>Loading...</div>;
@@ -84,31 +84,34 @@ function OrderDetailPage() {
 
             <div style={{ paddingBottom: "20px", fontSize: "18px" }}>
               <p><strong>Customer Name:</strong> {order.customerName}</p>
-              <p><strong>Part Number:</strong> {order.partNumber}</p>
-              <p><strong>Quantity:</strong> {order.quantity}</p>
-              <p><strong>Price:</strong> ${order.price}</p>
-              <p><strong>Status:</strong> <span style={{ fontWeight: "bold", color: order.status === "dispatched" ? "green" : "orange" }}>{order.status}</span></p>
+              <p><strong>Tracking ID:</strong> {order.trackingId}</p>
+              <p><strong>Part Numbers:</strong></p>
+              <ul>
+                {order.partNumbers.map((pn, index) => (
+                  <li key={index}><strong>Part {index + 1}:</strong> {pn.number}</li>
+                ))}
+              </ul>
+              <p><strong>Status:</strong> <span style={{ fontWeight: "bold", color: order.status === "Dispatched" ? "green" : "orange" }}>{order.status}</span></p>
             </div>
 
             {/* Dispatch Button */}
-            {order.status !== "dispatched" && (
+            {order.status !== "Dispatched" && (
               <div className="text-center">
                 <Button
-  type="primary"
-  size="large"
-  onClick={handleDispatch}
-  style={{
-    borderRadius: "8px", 
-    fontSize: "18px", 
-    padding: "10px 30px",
-    backgroundColor: "green",  // Set background color to green
-    borderColor: "green",  // Set border color to green
-    color: "white",  // Set text color to white
-  }}
->
-  Dispatch Order
-</Button>
-
+                  type="primary"
+                  size="large"
+                  onClick={handleDispatch}
+                  style={{
+                    borderRadius: "8px", 
+                    fontSize: "18px", 
+                    padding: "10px 30px",
+                    backgroundColor: "green",
+                    borderColor: "green",
+                    color: "white",
+                  }}
+                >
+                  Dispatch Order
+                </Button>
               </div>
             )}
           </Card>

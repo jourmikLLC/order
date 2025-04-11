@@ -6,7 +6,14 @@ const router = express.Router();
 // Create Order
 router.post("/", async (req, res) => {
   try {
-    const newOrder = new Order(req.body);
+    const { customerName, trackingId, partNumbers } = req.body;
+    
+    const newOrder = new Order({
+      customerName,
+      trackingId,
+      partNumbers: partNumbers.map((num) => ({ number: num })), // Ensuring correct format
+    });
+
     await newOrder.save();
     res.status(201).json(newOrder);
   } catch (err) {
@@ -42,10 +49,9 @@ router.get("/:id", async (req, res) => {
 router.put("/:id/dispatch", async (req, res) => {
   const { id } = req.params;
   try {
-    // Update the order's status to "dispatched"
     const order = await Order.findByIdAndUpdate(
       id,
-      { status: "dispatched" },
+      { status: "Dispatched" },
       { new: true }
     );
     if (!order) {
@@ -53,11 +59,11 @@ router.put("/:id/dispatch", async (req, res) => {
     }
     res.json(order);
   } catch (err) {
-    res.status(500).json({ message: "Error dispatching order", error: err });
+    res.status(500).json({ message: "Error updating order status", error: err });
   }
 });
 
-// Delete Order (Optional)
+// Delete Order
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
   try {
