@@ -1,7 +1,8 @@
 import axios from "axios";
+const API_URL = import.meta.env.VITE_API_URL; // Read from .env
 
 const API = axios.create({
-  baseURL: "https://order-two-gamma.vercel.app/api", // Uses Vite's proxy
+  baseURL: `${API_URL}`, // Uses Vite's proxy
 });
 
 export const getServerStatus = async () => {

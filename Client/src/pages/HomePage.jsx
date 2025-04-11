@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Button, Card } from "antd";  // Importing Ant Design components
-import { toast } from "react-hot-toast";  // Importing React Hot Toast
+import { Button, Card } from "antd"; // Importing Ant Design components
+import { toast } from "react-hot-toast"; // Importing React Hot Toast
 
 const HomePage = () => {
   // Show success toast on button click
@@ -10,16 +10,33 @@ const HomePage = () => {
   };
 
   const handleOrdersDetailsClick = () => {
-    toast.success("Navigating to orders details...");
+    toast.success("Navigating ");
   };
 
   return (
-    <div className="container-fluid" style={{ height:"100vh", paddingTop: "60px", backgroundColor: "#f4f6f9" }}>
+    <div
+      className="container-fluid"
+      style={{
+        height: "100vh",
+        paddingTop: "60px",
+        backgroundColor: "#f4f6f9",
+      }}
+    >
       <div className="row justify-content-center">
         <div className="col-md-8">
           <Card
-  title={<span style={{ color:"#02335f",fontSize: "32px", fontWeight: "bold" }}>Welcome to the Order Management System</span>}
-  style={{
+            title={
+              <span
+                style={{
+                  color: "#02335f",
+                  fontSize: "32px",
+                  fontWeight: "bold",
+                }}
+              >
+                Welcome to the Order Management System
+              </span>
+            }
+            style={{
               borderRadius: "12px",
               boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.1)",
               padding: "30px",
@@ -27,7 +44,14 @@ const HomePage = () => {
               backgroundColor: "#fff",
             }}
           >
-            <h4 className="text-center" style={{ color: "#34495e", fontSize: "20px", marginBottom: "30px" }}>
+            <h4
+              className="text-center"
+              style={{
+                color: "#34495e",
+                fontSize: "20px",
+                marginBottom: "30px",
+              }}
+            >
               Manage your orders with ease
             </h4>
 
@@ -66,6 +90,25 @@ const HomePage = () => {
                   }}
                 >
                   View Orders Details
+                </Button>
+              </Link>
+            </div>
+
+            <div className="text-center">
+              <Link to="/orders-scan">
+                <Button
+                  type="default"
+                  size="large"
+                  block
+                  onClick={handleOrdersDetailsClick}
+                  style={{
+                    borderRadius: "8px",
+                    fontSize: "18px",
+                    backgroundColor: "#f1c40f",
+                    borderColor: "#f1c40f",
+                  }}
+                >
+                  Scan Orders
                 </Button>
               </Link>
             </div>
