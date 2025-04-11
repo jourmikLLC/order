@@ -1,0 +1,30 @@
+.ant-message-notice-content {
+  font-size: 20px !important;
+  font-size: 50px;
+  font-weight: bold !important;
+  padding: 15px !important;
+  text-align: center;
+  border-radius: 8px !important;
+  /* color: white !important; */
+}
+/* .ant-message-success {
+  background-color: #52c41a !important;
+}
+.ant-message-error {
+  background-color: #ff4d4f !important;
+}
+.ant-message-warning {
+  background-color: #faad14 !important;
+} */
+.ant-message .anticon {
+  font-size: 50px !important; /* Increase SVG icon size */
+}
+.ant-message-notice-content {
+  /* display: flex; */
+  align-items: center; /* Ensures vertical alignment */
+  gap: 10px; /* Space between SVG and text */
+}
+.ant-message-notice-content svg {
+  width: 30px;
+  height: 30px;
+}

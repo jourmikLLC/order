@@ -114,6 +114,24 @@ const HomePage = () => {
                 </Button>
               </Link>
             </div>
+            <div className="text-center mt-2">
+              <Link to="/orders-scan2">
+                <Button
+                  type="default"
+                  size="large"
+                  block
+                  onClick={handleOrdersDetailsClick}
+                  style={{
+                    borderRadius: "8px",
+                    fontSize: "18px",
+                    backgroundColor: "rgb(45 211 22)",
+                    borderColor: "#f6c40f",
+                  }}
+                >
+                  Scan Orders (scanner)
+                </Button>
+              </Link>
+            </div>
           </Card>
         </div>
       </div>

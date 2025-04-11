@@ -7,7 +7,8 @@ import OrderDetails from "./pages/OrderDetails";
 import OrderDetailPage from "./pages/OrderDetailPage";
 import OrdersScan from "./pages/OrderScan";
 import PrivateRoute from "./Route/PrivateRoute";
-
+import OrdersScantwo from "./pages/OrderScan2";
+import "./App.css";
 function App() {
   return (
     <Routes>
@@ -31,6 +32,10 @@ function App() {
       <Route
         path="/orders-scan"
         element={<PrivateRoute element={<OrdersScan />} />}
+      />
+      <Route
+        path="/orders-scan2"
+        element={<PrivateRoute element={<OrdersScantwo />} />}
       />
     </Routes>
   );

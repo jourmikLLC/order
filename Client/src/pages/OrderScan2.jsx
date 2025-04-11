@@ -2,21 +2,21 @@ import React, { useState } from "react";
 import { Input, Button, Card, message, Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_API_URL; // Read from .env
 
 message.config({
   top: 100,
-  duration: 4,
+  duration: 3,
 });
 
-function OrdersScan() {
+function OrdersScantwo() {
   const [trackingId, setTrackingId] = useState("");
   const [order, setOrder] = useState(null);
   const [currentPartIndex, setCurrentPartIndex] = useState(0);
   const [scannedPart, setScannedPart] = useState("");
   const [trackingIdValid, setTrackingIdValid] = useState(false);
   const [scannedParts, setScannedParts] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false); // Loading state
 
   // Fetch Order by Tracking ID
   const fetchOrder = async () => {
@@ -56,8 +56,8 @@ function OrdersScan() {
     }
 
     if (scannedParts.includes(scannedPart)) {
-      message.warning("⚠️ This Part Number has already been scanned.");
-      setScannedPart("");
+      message.warning("⚠️ This part has already been scanned.");
+      setScannedPart(""); // Reset input
       return;
     }
 
@@ -74,7 +74,7 @@ function OrdersScan() {
 
       const data = await response.json();
 
-      if (data.message === "Part Number matched.") {
+      if (data.message === "Part number matched.") {
         setScannedParts([...scannedParts, scannedPart]);
         setScannedPart("");
 
@@ -85,21 +85,32 @@ function OrdersScan() {
           setCurrentPartIndex(currentPartIndex + 1);
           message.success(` Part ${currentPartIndex + 1} matched.`);
         } else {
-          message.success(
-            "🎉 All Part Numbers matched. Order ready for dispatch!"
-          );
-          setOrder(null);
-          setTrackingId("");
-          setTrackingIdValid(false);
-          setScannedParts([]);
+          message.success("🎉 All parts matched. Order ready for dispatch!");
+          resetState();
         }
-      } else if (data.message.includes("Wrong Part Number")) {
+      } else {
         message.error(" Wrong Part Number. Please scan again.");
       }
     } catch (error) {
       message.error("⚠️ Error verifying Part Number. Try again.");
     }
     setLoading(false);
+  };
+
+  // Reset state after order completion
+  const resetState = () => {
+    setOrder(null);
+    setTrackingId("");
+    setTrackingIdValid(false);
+    setScannedParts([]);
+  };
+
+  // Handle barcode scanner auto-submit
+  const handleKeyPress = (event, type) => {
+    if (event.key === "Enter") {
+      if (type === "tracking") fetchOrder();
+      if (type === "part") verifyPartNumber();
+    }
   };
 
   return (
@@ -114,7 +125,7 @@ function OrdersScan() {
       }}
     >
       <Card
-        title="📦 Order Scanning"
+        title="📦 Warehouse Order Dispatching System"
         style={{
           width: "600px",
           padding: "20px",
@@ -135,6 +146,8 @@ function OrdersScan() {
               onChange={(e) => setTrackingId(e.target.value)}
               placeholder="🔍 Scan Tracking ID"
               style={{ fontSize: "16px", padding: "10px" }}
+              onKeyPress={(e) => handleKeyPress(e, "tracking")}
+              autoFocus
             />
             <Button
               type="primary"
@@ -143,15 +156,13 @@ function OrdersScan() {
                 width: "100%",
                 fontSize: "18px",
                 padding: "15px 20px",
-                paddingBottom: "40px",
+                paddingBottom: "40px !important",
+
                 fontWeight: "bold",
                 borderRadius: "8px",
                 backgroundColor: "#1890ff",
                 border: "none",
-                transition: "all 0.3s ease",
               }}
-              onMouseEnter={(e) => (e.target.style.backgroundColor = "#1890ff")}
-              onMouseLeave={(e) => (e.target.style.backgroundColor = "#1890ff")}
               onClick={fetchOrder}
               disabled={loading}
             >
@@ -180,6 +191,8 @@ function OrdersScan() {
               onChange={(e) => setScannedPart(e.target.value)}
               placeholder="📌 Scan Part Number"
               style={{ fontSize: "16px", padding: "10px" }}
+              onKeyPress={(e) => handleKeyPress(e, "part")}
+              autoFocus
             />
             <Button
               type="primary"
@@ -187,16 +200,13 @@ function OrdersScan() {
                 marginTop: "10px",
                 width: "100%",
                 fontSize: "18px",
+                paddingBottom: "40px !important",
                 padding: "15px 20px",
-                paddingBottom: "40px",
                 fontWeight: "bold",
                 borderRadius: "8px",
                 backgroundColor: "#1890ff",
                 border: "none",
-                transition: "all 0.3s ease",
               }}
-              onMouseEnter={(e) => (e.target.style.backgroundColor = "#1890ff")}
-              onMouseLeave={(e) => (e.target.style.backgroundColor = "#1890ff")}
               onClick={verifyPartNumber}
               disabled={loading}
             >
@@ -220,4 +230,4 @@ function OrdersScan() {
   );
 }
 
-export default OrdersScan;
+export default OrdersScantwo;
