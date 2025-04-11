@@ -5,10 +5,10 @@ const router = express.Router();
 
 // ✅ Middleware to validate required fields
 const validateOrderInput = (req, res, next) => {
-  const { customerName, trackingId, entries } = req.body;
+  const { customerName, trackingId, entries, orderId } = req.body;
 
-  if (!customerName || !trackingId || !entries || !Array.isArray(entries) || entries.length === 0) {
-    return res.status(400).json({ message: "Invalid input! Please provide customerName, trackingId, and at least one entry." });
+  if (!customerName || !orderId || !trackingId || !entries || !Array.isArray(entries) || entries.length === 0) {
+    return res.status(400).json({ message: "Invalid input! Please provide customerName, trackingId, orderId, and at least one entry." });
   }
 
   for (const entry of entries) {
@@ -37,6 +37,7 @@ router.post("/", validateOrderInput, async (req, res) => {
     const newOrder = new Order({
       customerName,
       trackingId,
+      orderId,
       entries,
     });
 

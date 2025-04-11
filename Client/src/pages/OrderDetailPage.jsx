@@ -124,7 +124,7 @@ function OrderDetailPage() {
             </div>
 
             {/* Dispatch Button */}
-            {order.status !== "Dispatched" && (
+            {/* {order.status !== "Dispatched" && (
               <div className="text-center">
                 <Button
                   type="primary"
@@ -142,7 +142,7 @@ function OrderDetailPage() {
                   Dispatch Order
                 </Button>
               </div>
-            )}
+            )} */}
           </Card>
         </div>
       </div>

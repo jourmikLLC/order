@@ -10,6 +10,7 @@ const entrySchema = new mongoose.Schema({
 const orderSchema = new mongoose.Schema(
   {
     customerName: { type: String, required: true },
+    orderId: { type: String, required: true },
     trackingId: { type: String, required: true, unique: true },
     entries: [entrySchema], // Array of entries
     status: {

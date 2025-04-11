@@ -126,8 +126,11 @@ function OrderDetails() {
                   className="text-center"
                   style={{ fontSize: "24px", color: "#2c3e50" }}
                 >
-                  Tracking ID: {order.trackingId}
+                  Order ID: {order.orderId}
                 </h3>
+                <p style={{ fontSize: "16px", color: "#7f8c8d" }}>
+                  <strong>Tracking id:</strong> {order.trackingId}
+                </p>
                 <p style={{ fontSize: "16px", color: "#7f8c8d" }}>
                   <strong>Customer Name:</strong> {order.customerName}
                 </p>

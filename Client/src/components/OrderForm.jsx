@@ -32,6 +32,7 @@ function OrderForm() {
   const handleSubmit = async (values) => {
     try {
       const orderData = {
+        orderId: values.orderId,
         customerName: values.customerName,
         trackingId: values.trackingId,
         entries: entries.map((entry) => ({
@@ -59,6 +60,13 @@ function OrderForm() {
         onFinish={handleSubmit}
         style={{ maxWidth: "500px", margin: "auto" }}
       >
+        <Form.Item
+          label="Order ID"
+          name="orderId"
+          rules={[{ required: true, message: "Enter order ID!" }]}
+        >
+          <Input placeholder="Enter order ID" />
+        </Form.Item>
         <Form.Item
           label="Customer Name"
           name="customerName"
