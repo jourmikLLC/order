@@ -210,9 +210,17 @@ function OrdersScan() {
                 marginTop: "10px",
                 width: "100%",
                 fontSize: "18px",
+                padding: "15px 20px", // Adjusted padding for better size
                 fontWeight: "bold",
+                paddingBottom: "40px",
+                borderRadius: "8px", // Rounded corners for a modern look
+                backgroundColor: "#1890ff", // Ensures a strong primary blue
+                border: "none", // Removes border
+                transition: "all 0.3s ease", // Smooth hover effect
               }}
-              onClick={verifyPartNumber}
+              onMouseEnter={(e) => (e.target.style.backgroundColor = "#40a9ff")}
+              onMouseLeave={(e) => (e.target.style.backgroundColor = "#1890ff")}
+              onClick={fetchOrder}
             >
               ✅ Verify Part Number
             </Button>
