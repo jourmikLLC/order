@@ -1,28 +1,37 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import HomePage from "./pages/HomePage.jsx"; // Home page
-import OrderDetailsEntry from "./pages/OrderDetailsEntry"; // New page to handle order entry
-import OrderDetails from "./pages/OrderDetails.jsx";
-import OrderDetailPage from "./pages/OrderDetailPage.jsx";
-import OrdersScan from "./pages/OrderScan.jsx";
+import { Route, Routes } from "react-router-dom";
+import LoginPage from "./pages/loginPage";
+import HomePage from "./pages/HomePage";
+import OrderDetailsEntry from "./pages/OrderDetailsEntry";
+import OrderDetails from "./pages/OrderDetails";
+import OrderDetailPage from "./pages/OrderDetailPage";
+import OrdersScan from "./pages/OrderScan";
+import PrivateRoute from "./Route/PrivateRoute";
 
 function App() {
   return (
     <Routes>
-      {/* Home page route */}
-      <Route path="/" element={<HomePage />} />
+      {/* Login page route */}
+      <Route path="/login" element={<LoginPage />} />
 
-      {/* Order Entry page route */}
-      <Route path="/order-entry" element={<OrderDetailsEntry />} />
-
-      {/* Order Details page route, passing orderId as parameter */}
-      <Route path="/order/:orderId" element={<OrderDetailPage />} />
-
-      {/* Order Details Entry page for creating an order */}
-      <Route path="/orders-details" element={<OrderDetails />} />
-
-      {/* Order scanning page for */}
-      <Route path="/orders-scan" element={<OrdersScan />} />
+      {/* Protected Routes */}
+      <Route path="/" element={<PrivateRoute element={<HomePage />} />} />
+      <Route
+        path="/order-entry"
+        element={<PrivateRoute element={<OrderDetailsEntry />} />}
+      />
+      <Route
+        path="/order/:orderId"
+        element={<PrivateRoute element={<OrderDetailPage />} />}
+      />
+      <Route
+        path="/orders-details"
+        element={<PrivateRoute element={<OrderDetails />} />}
+      />
+      <Route
+        path="/orders-scan"
+        element={<PrivateRoute element={<OrdersScan />} />}
+      />
     </Routes>
   );
 }

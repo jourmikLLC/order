@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 import orderRoutes from "./Routes/OrderRoutes.js";
+import AuthRoutes from "./Routes/AuthRoute.js";
 
 dotenv.config();
 const app = express();
@@ -18,6 +19,12 @@ app.use(cors({
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 
+// const db = await mysql.createConnection({
+//   host: process.env.DB_HOST || "localhost",
+//   user: process.env.DB_USER || "root",
+//   password: process.env.DB_PASSWORD || "password",
+//   database: process.env.DB_NAME || "warehouse_db",
+// });
 // Connect to MongoDB
 mongoose
   .connect(MONGO_URI)
@@ -26,7 +33,7 @@ mongoose
 
 // Routes
 app.use("/api/orders", orderRoutes);
-
+app.use("/api",AuthRoutes)
 // Basic route for testing
 app.get("/", (req, res) => {
   res.send("Server is running...");
@@ -36,3 +43,4 @@ app.get("/", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
