@@ -201,7 +201,7 @@ function OrdersScantwo() {
                 width: "100%",
                 fontSize: "18px",
                 // paddingBottom: "60px !important",
-                padding: "15px 20px",
+                padding: "20px 20px 40px",
                 paddingBottom: "40px",
                 fontWeight: "bold",
                 borderRadius: "8px",
