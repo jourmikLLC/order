@@ -9,6 +9,10 @@ message.config({
   duration: 3,
 });
 
+// Audio files in the public/sounds folder
+const errorBeep = new Audio("/sounds/error-beep.mp3");
+const successBeep = new Audio("/sounds/success-beep.mp3");
+
 function OrdersScantwo() {
   const [trackingId, setTrackingId] = useState("");
   const [order, setOrder] = useState(null);
@@ -38,12 +42,15 @@ function OrdersScantwo() {
         setCurrentPartIndex(0);
         setScannedPart("");
         setScannedParts([]);
-        message.success(` Tracking ID verified: ${trackingId}`);
+        message.success(`Tracking ID verified: ${trackingId}`);
+        successBeep.play(); // Play success sound
       } else {
-        message.error(" Invalid Tracking ID. Please try again.");
+        message.error("Invalid Tracking ID. Please try again.");
+        errorBeep.play(); // Play error sound
       }
     } catch (error) {
       message.error("⚠️ Error fetching order. Try again.");
+      errorBeep.play(); // Play error sound
     }
     setLoading(false);
   };
@@ -52,12 +59,14 @@ function OrdersScantwo() {
   const verifyPartNumber = async () => {
     if (!scannedPart) {
       message.error("⚠️ Please enter a Part Number.");
+      errorBeep.play(); // Play error sound
       return;
     }
 
     if (scannedParts.includes(scannedPart)) {
       message.warning("⚠️ This part has already been scanned.");
       setScannedPart(""); // Reset input
+      errorBeep.play(); // Play error sound
       return;
     }
 
@@ -83,16 +92,20 @@ function OrdersScantwo() {
           order.entries.flatMap((entry) => entry.partNumbers).length
         ) {
           setCurrentPartIndex(currentPartIndex + 1);
-          message.success(` Part ${currentPartIndex + 1} matched.`);
+          message.success(`Part ${currentPartIndex + 1} matched.`);
+          successBeep.play(); // Play success sound
         } else {
           message.success("🎉 All parts matched. Order ready for dispatch!");
+          successBeep.play(); // Play success sound
           resetState();
         }
       } else {
-        message.error(" Wrong Part Number. Please scan again.");
+        message.error("Wrong Part Number. Please scan again.");
+        errorBeep.play(); // Play error sound
       }
     } catch (error) {
       message.error("⚠️ Error verifying Part Number. Try again.");
+      errorBeep.play(); // Play error sound
     }
     setLoading(false);
   };
