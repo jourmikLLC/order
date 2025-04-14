@@ -3,7 +3,8 @@ import { Input, Button, Card, message, Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 
 const API_URL = import.meta.env.VITE_API_URL;
-
+const errorBeep = new Audio("/sounds/error-beep.mp3");
+const successBeep = new Audio("/sounds/success-beep.mp3");
 message.config({
   top: 100,
   duration: 3,
@@ -37,12 +38,15 @@ function OrdersScan() {
         setCurrentPartIndex(0);
         setScannedPart("");
         setScannedParts([]);
-        message.success(` Tracking ID verified: ${trackingId}`);
+        message.success(`Tracking ID verified: ${trackingId}`);
+        successBeep.play();
       } else {
-        message.error(" Invalid Tracking ID. Please try again.");
+        message.error("Invalid Tracking ID. Please try again.");
+        errorBeep.play();
       }
     } catch (error) {
       message.error("⚠️ Error fetching order. Try again.");
+      errorBeep.play();
     }
     setLoading(false);
   };
@@ -50,12 +54,14 @@ function OrdersScan() {
   const verifyPartNumber = async () => {
     if (!scannedPart) {
       message.error("⚠️ Please enter a Part Number.");
+      errorBeep.play();
       return;
     }
 
     if (scannedParts.includes(scannedPart)) {
       message.warning("⚠️ This part has already been scanned.");
       setScannedPart("");
+      errorBeep.play();
       return;
     }
 
@@ -75,22 +81,26 @@ function OrdersScan() {
       if (data.message === "Part number matched.") {
         setScannedParts([...scannedParts, scannedPart]);
         setScannedPart("");
+        successBeep.play();
 
         if (
           currentPartIndex + 1 <
           order.entries.flatMap((entry) => entry.partNumbers).length
         ) {
           setCurrentPartIndex(currentPartIndex + 1);
-          message.success(` Part ${currentPartIndex + 1} matched.`);
+          message.success(`Part ${currentPartIndex + 1} matched.`);
         } else {
           message.success("🎉 All parts matched. Order ready for dispatch!");
+          successBeep.play();
           resetState();
         }
       } else {
-        message.error(" Wrong Part Number. Please scan again.");
+        message.error("Wrong Part Number. Please scan again.");
+        errorBeep.play();
       }
     } catch (error) {
       message.error("⚠️ Error verifying Part Number. Try again.");
+      errorBeep.play();
     }
     setLoading(false);
   };
@@ -117,88 +127,15 @@ function OrdersScan() {
 
     if (type === "tracking") {
       setTrackingId(pastedText);
-      fetchOrderWithValue(pastedText); // pass directly
+      await new Promise((resolve) => setTimeout(resolve, 20));
+      fetchOrder();
     }
 
     if (type === "part") {
       setScannedPart(pastedText);
-      verifyPartNumberWithValue(pastedText); // pass directly
+      await new Promise((resolve) => setTimeout(resolve, 20));
+      verifyPartNumber();
     }
-  };
-  const fetchOrderWithValue = async (pastedTrackingId) => {
-    setLoading(true);
-    try {
-      const response = await fetch(
-        `${API_URL}/orders/scan/validateTrackingId`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ trackingId: pastedTrackingId }),
-        }
-      );
-
-      const data = await response.json();
-      if (data.order) {
-        setOrder(data.order);
-        setTrackingIdValid(true);
-        setCurrentPartIndex(0);
-        setScannedPart("");
-        setScannedParts([]);
-        message.success(`Tracking ID verified: ${pastedTrackingId}`);
-      } else {
-        message.error("Invalid Tracking ID. Please try again.");
-      }
-    } catch (error) {
-      message.error("⚠️ Error fetching order. Try again.");
-    }
-    setLoading(false);
-  };
-
-  const verifyPartNumberWithValue = async (pastedPartNumber) => {
-    if (!pastedPartNumber) {
-      message.error("⚠️ Please enter a Part Number.");
-      return;
-    }
-
-    if (scannedParts.includes(pastedPartNumber)) {
-      message.warning("⚠️ This part has already been scanned.");
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const response = await fetch(
-        `${API_URL}/orders/scan/validatePartNumbers`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ trackingId, partNumber: pastedPartNumber }),
-        }
-      );
-
-      const data = await response.json();
-
-      if (data.message === "Part number matched.") {
-        setScannedParts([...scannedParts, pastedPartNumber]);
-        setScannedPart("");
-
-        if (
-          currentPartIndex + 1 <
-          order.entries.flatMap((entry) => entry.partNumbers).length
-        ) {
-          setCurrentPartIndex(currentPartIndex + 1);
-          message.success(`Part ${currentPartIndex + 1} matched.`);
-        } else {
-          message.success("🎉 All parts matched. Order ready for dispatch!");
-          resetState();
-        }
-      } else {
-        message.error("Wrong Part Number. Please scan again.");
-      }
-    } catch (error) {
-      message.error("⚠️ Error verifying Part Number. Try again.");
-    }
-    setLoading(false);
   };
 
   return (
@@ -232,12 +169,11 @@ function OrdersScan() {
               value={trackingId}
               onChange={(e) => setTrackingId(e.target.value)}
               onKeyPress={(e) => handleKeyPress(e, "tracking")}
-              onPaste={(e) => handlePaste(e, "tracking")} // pass the event
+              onPaste={(e) => handlePaste(e, "tracking")}
               placeholder="🔍 Scan Tracking ID"
               style={{ fontSize: "70px", padding: "10px" }}
               autoFocus
             />
-
             <Button
               type="primary"
               style={{
@@ -277,19 +213,19 @@ function OrdersScan() {
               value={scannedPart}
               onChange={(e) => setScannedPart(e.target.value)}
               onKeyPress={(e) => handleKeyPress(e, "part")}
-              onPaste={(e) => handlePaste(e, "part")} // pass the event
+              onPaste={(e) => handlePaste(e, "part")}
               placeholder="📌 Scan Part Number"
               style={{ fontSize: "70px", padding: "10px" }}
               autoFocus
             />
-
             <Button
               type="primary"
               style={{
                 marginTop: "10px",
                 width: "100%",
                 fontSize: "40px",
-                padding: "40px 40px 90px",
+                padding: "40px 40px 80px",
+                paddingBottom: "40px",
                 fontWeight: "bold",
                 borderRadius: "8px",
                 backgroundColor: "#1890ff",
