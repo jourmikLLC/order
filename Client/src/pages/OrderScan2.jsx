@@ -119,18 +119,19 @@ function OrdersScantwo() {
       style={{
         display: "flex",
         justifyContent: "center",
+        fontSize: "70px",
         alignItems: "center",
         height: "100vh",
         backgroundColor: "#f8d9fa",
       }}
     >
       <Card
-        title="📦 Warehouse Order Dispatching System"
+        // title="📦 Warehouse Order Dispatching System"
         style={{
-          width: "600px",
+          // width: "600px",
           padding: "20px",
           textAlign: "center",
-          fontSize: "22px",
+          fontSize: "70px",
           fontWeight: "bold",
           boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
           borderRadius: "10px",
@@ -138,14 +139,14 @@ function OrdersScantwo() {
       >
         {!trackingIdValid ? (
           <>
-            <p style={{ fontSize: "18px" }}>
+            <p style={{ fontSize: "70px" }}>
               Enter Tracking ID to fetch order details:
             </p>
             <Input
               value={trackingId}
               onChange={(e) => setTrackingId(e.target.value)}
               placeholder="🔍 Scan Tracking ID"
-              style={{ fontSize: "16px", padding: "10px" }}
+              style={{ fontSize: "70px", padding: "10px" }}
               onKeyPress={(e) => handleKeyPress(e, "tracking")}
               autoFocus
             />
@@ -154,9 +155,8 @@ function OrdersScantwo() {
               style={{
                 marginTop: "10px",
                 width: "100%",
-                fontSize: "18px",
-                padding: "20px 20px",
-                paddingBottom: "40px",
+                fontSize: "40px",
+                padding: "20px 20px 80px",
                 fontWeight: "bold",
                 borderRadius: "8px",
                 backgroundColor: "#1890ff",
@@ -169,19 +169,19 @@ function OrdersScantwo() {
                 <Spin
                   indicator={
                     <LoadingOutlined
-                      style={{ fontSize: 24, color: "#fff" }}
+                      style={{ fontSize: 70, color: "#fff" }}
                       spin
                     />
                   }
                 />
               ) : (
-                " Verify Tracking ID"
+                <span className="">Verify Tracking ID</span>
               )}
             </Button>
           </>
         ) : (
           <>
-            <p style={{ fontSize: "18px" }}>
+            <p style={{}}>
               🔢 Scanning Part {currentPartIndex + 1} of{" "}
               {order.entries.flatMap((entry) => entry.partNumbers).length}
             </p>
@@ -189,19 +189,18 @@ function OrdersScantwo() {
               value={scannedPart}
               onChange={(e) => setScannedPart(e.target.value)}
               placeholder="📌 Scan Part Number"
-              style={{ fontSize: "16px", padding: "10px" }}
+              style={{ fontSize: "70px", padding: "10px" }}
               onKeyPress={(e) => handleKeyPress(e, "part")}
               autoFocus
             />
             <Button
-              className="btn2"
               type="primary"
               style={{
                 marginTop: "10px",
                 width: "100%",
-                fontSize: "18px",
+                fontSize: "40px",
                 // paddingBottom: "60px !important",
-                padding: "20px 20px 40px",
+                padding: "40px 40px 80px",
                 paddingBottom: "40px",
                 fontWeight: "bold",
                 borderRadius: "8px",
@@ -215,13 +214,13 @@ function OrdersScantwo() {
                 <Spin
                   indicator={
                     <LoadingOutlined
-                      style={{ fontSize: 24, color: "#fff" }}
+                      style={{ fontSize: 70, color: "#fff" }}
                       spin
                     />
                   }
                 />
               ) : (
-                " Verify Part Number"
+                <span className="">Verify Part No</span>
               )}
             </Button>
           </>
