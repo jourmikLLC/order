@@ -290,7 +290,6 @@ function OrdersScan() {
                 width: "100%",
                 fontSize: "40px",
                 padding: "40px 40px 90px",
-                paddingBottom: "40px",
                 fontWeight: "bold",
                 borderRadius: "8px",
                 backgroundColor: "#1890ff",
