@@ -109,6 +109,7 @@ const HomePage = () => {
                     backgroundColor: "rgb(15 241 92)",
                     borderColor: "#f1c40f",
                   }}
+                  disabled
                 >
                   Scan Orders
                 </Button>
