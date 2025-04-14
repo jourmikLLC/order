@@ -194,6 +194,7 @@ function OrdersScantwo() {
               autoFocus
             />
             <Button
+              className="btn2"
               type="primary"
               style={{
                 marginTop: "10px",
