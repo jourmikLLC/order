@@ -3,12 +3,12 @@ import Order from "../models/Orders.js";
 
 const router = express.Router();
 
-// ✅ Middleware to validate required fields
 const validateOrderInput = (req, res, next) => {
-  const { customerName, trackingId, entries, orderId } = req.body;
+  const { customerName, trackingId, entries, orderId, serialNo, platform } = req.body;
+console.log(req.body);
 
-  if (!customerName || !orderId || !trackingId || !entries || !Array.isArray(entries) || entries.length === 0) {
-    return res.status(400).json({ message: "Invalid input! Please provide customerName, trackingId, orderId, and at least one entry." });
+  if (!customerName || !orderId || !trackingId || !entries || !Array.isArray(entries) || entries.length === 0 || !serialNo || !platform) {
+    return res.status(400).json({ message: "Invalid input! Required: customerName, trackingId, orderId, serialNo, Platform, and at least one entry." });
   }
 
   for (const entry of entries) {
@@ -26,30 +26,28 @@ const validateOrderInput = (req, res, next) => {
 // ✅ Create Order
 router.post("/", validateOrderInput, async (req, res) => {
   try {
-    const { customerName, trackingId, entries, orderId } = req.body; // Make sure you're extracting orderId here
-
-    // Check if tracking ID already exists
+    const { customerName, trackingId, entries, orderId, serialNo, platform } = req.body;
+console.log(req.body);
     const existingOrder = await Order.findOne({ trackingId });
     if (existingOrder) {
       return res.status(400).json({ message: "Tracking ID already exists. Please use a unique tracking ID." });
     }
-
-    // Create a new order with all fields including orderId
     const newOrder = new Order({
       customerName,
       trackingId,
-      orderId, // Include orderId here
+      orderId,
+      serialNo,
+      platform,
       entries,
     });
 
-    await newOrder.save(); // Save the new order to the database
-    res.status(201).json(newOrder); // Return the saved order
+    await newOrder.save();
+    res.status(201).json(newOrder);
   } catch (err) {
     console.error("Error saving order:", err);
     res.status(500).json({ message: "Error saving order", error: err.message });
   }
 });
-
 
 // ✅ Get All Orders
 router.get("/", async (req, res) => {

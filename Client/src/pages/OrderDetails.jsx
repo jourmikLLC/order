@@ -136,6 +136,16 @@ function OrderDetails() {
       key: "trackingId",
     },
     {
+      title: "Serial No",
+      dataIndex: "serialNo",
+      key: "serialNo",
+    },
+    {
+      title: "platform",
+      dataIndex: "platform",
+      key: "platform",
+    },
+    {
       title: "Customer Name",
       dataIndex: "customerName",
       key: "customerName",
@@ -173,6 +183,12 @@ function OrderDetails() {
       dataIndex: "createdAt",
       key: "createdAt",
       render: (date) => new Date(date).toLocaleString(),
+    },
+    {
+      title: "Dispatched At",
+      dataIndex: "dispatchedAt",
+      key: "dispatchedAt",
+      render: (date) => (date ? new Date(date).toLocaleString() : "-"),
     },
     ...(role === "admin"
       ? [

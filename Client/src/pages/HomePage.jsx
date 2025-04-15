@@ -56,30 +56,52 @@ const HomePage = () => {
           >
             {/* ✅ Show only for admin after role is loaded */}
             {role === "admin" && (
-              <div className="text-center">
-                <Link to="/order-entry">
-                  <Button
-                    type="primary"
-                    size="large"
-                    block
-                    onClick={handleCreateOrderClick}
-                    style={{
-                      marginBottom: "15px",
-                      borderRadius: "8px",
-                      fontSize: "40px",
-                      padding: "40px 40px 100px",
-                      backgroundColor: "#2980b9",
-                      borderColor: "#2980b9",
-                    }}
-                  >
-                    Create New Order
-                  </Button>
-                </Link>
-              </div>
+              <>
+                {" "}
+                <div className="text-center">
+                  <Link to="/order-entry">
+                    <Button
+                      type="primary"
+                      size="large"
+                      block
+                      onClick={handleCreateOrderClick}
+                      style={{
+                        marginBottom: "15px",
+                        borderRadius: "8px",
+                        fontSize: "40px",
+                        padding: "40px 40px 100px",
+                        backgroundColor: "#2980b9",
+                        borderColor: "#2980b9",
+                      }}
+                    >
+                      Create New Order
+                    </Button>
+                  </Link>
+                </div>
+                <div className="text-center">
+                  <Link to="/orders-details">
+                    <Button
+                      type="default"
+                      size="large"
+                      block
+                      onClick={handleOrdersDetailsClick}
+                      style={{
+                        borderRadius: "8px",
+                        marginBottom: "15px",
+                        fontSize: "40px",
+                        padding: "40px 40px 100px",
+                        backgroundColor: "#f1c40f",
+                        borderColor: "#f1c40f",
+                      }}
+                    >
+                      See All Orders
+                    </Button>
+                  </Link>
+                </div>
+              </>
             )}
-
             <div className="text-center">
-              <Link to="/orders-details">
+              <Link to="/warehouse-list">
                 <Button
                   type="default"
                   size="large"
@@ -98,7 +120,6 @@ const HomePage = () => {
                 </Button>
               </Link>
             </div>
-
             <div className="text-center mt-2">
               <Link to="/orders-scan">
                 <Button

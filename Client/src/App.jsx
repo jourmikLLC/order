@@ -7,8 +7,8 @@ import OrderDetails from "./pages/OrderDetails";
 import OrderDetailPage from "./pages/OrderDetailPage";
 import OrdersScan from "./pages/OrderScan";
 import PrivateRoute from "./Route/PrivateRoute";
-// import OrdersScantwo from "./pages/OrderScan2";
 import "./App.css";
+import WarehouseList from "./pages/warehouseList";
 function App() {
   return (
     <Routes>
@@ -33,10 +33,10 @@ function App() {
         element={<PrivateRoute element={<OrdersScan />} />}
       />{" "}
       <Route path="*" element={<PrivateRoute element={<HomePage />} />} />
-      {/* <Route
-        path="/orders-scan2"
-        element={<PrivateRoute element={<OrdersScantwo />} />}
-      /> */}
+      <Route
+        path="/warehouse-list"
+        element={<PrivateRoute element={<WarehouseList />} />}
+      />
     </Routes>
   );
 }

@@ -113,6 +113,7 @@ function OrdersScan() {
           if (dispatchResponse.ok) {
             message.success("🎉 Order marked as dispatched!");
             successBeep.play();
+            localStorage.setItem("dispatchUpdate", Date.now());
           } else {
             message.warning(
               `All parts matched, but dispatch failed: ${dispatchData.message}`

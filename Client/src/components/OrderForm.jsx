@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Input, Button, Select } from "antd";
+import { Form, Input, Button, Select, DatePicker } from "antd";
 import { createOrder } from "../api";
 import toast from "react-hot-toast";
 
@@ -35,11 +35,16 @@ function OrderForm() {
         orderId: values.orderId,
         customerName: values.customerName,
         trackingId: values.trackingId,
+        serialNo: values.serialNo,
+        platform: values.platform,
+        status: values.status || "Pending", // Default to 'Pending' if not specified
+        dispatchedAt: values.dispatchedAt ? values.dispatchedAt.format() : null,
         entries: entries.map((entry) => ({
           partNumberCount: entry.partNumberCount, // Send number of part numbers
           partNumbers: entry.partNumbers.filter((part) => part), // Remove empty values
         })),
       };
+
       console.log("Payload Sent:", orderData); // Debugging
       await createOrder(orderData);
       toast.success("Order created successfully!");
@@ -67,6 +72,7 @@ function OrderForm() {
         >
           <Input placeholder="Enter order ID" />
         </Form.Item>
+
         <Form.Item
           label="Customer Name"
           name="customerName"
@@ -82,6 +88,38 @@ function OrderForm() {
         >
           <Input placeholder="Enter Tracking ID" />
         </Form.Item>
+
+        <Form.Item
+          label="Serial Number"
+          name="serialNo"
+          rules={[{ required: true, message: "Enter serial number!" }]}
+        >
+          <Input placeholder="Enter Serial Number" />
+        </Form.Item>
+
+        <Form.Item
+          label="Platform"
+          name="platform"
+          rules={[{ required: true, message: "Enter platform!" }]}
+        >
+          <Input placeholder="Enter Platform" />
+        </Form.Item>
+
+        {/* <Form.Item label="Status" name="status" initialValue="Pending">
+          <Select>
+            <Select.Option value="Pending">Pending</Select.Option>
+            <Select.Option value="Dispatched">Dispatched</Select.Option>
+            <Select.Option value="Completed">Completed</Select.Option>
+          </Select>
+        </Form.Item>
+
+        <Form.Item label="Dispatched At" name="dispatchedAt">
+          <DatePicker
+            showTime
+            format="YYYY-MM-DD HH:mm:ss"
+            placeholder="Select Dispatch Time"
+          />
+        </Form.Item> */}
 
         {entries.map((entry, index) => (
           <div key={index} className="mb-3">
