@@ -52,7 +52,7 @@ const HomePage = () => {
                 marginBottom: "30px",
               }}
             >
-              {/* Manage your orders with ease */}
+              {/* Manage your orders with ease 
             </h4> */}
 
             <div className="text-center">
