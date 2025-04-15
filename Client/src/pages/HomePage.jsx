@@ -112,11 +112,11 @@ const HomePage = () => {
                     marginBottom: "15px",
                     fontSize: "40px",
                     padding: "40px 40px 100px",
-                    backgroundColor: "#f1c40f",
-                    borderColor: "#f1c40f",
+                    backgroundColor: "rgb(241 15 237);",
+                    borderColor: "rgb(241 15 237);",
                   }}
                 >
-                  See All Orders
+                  Warehouse List{" "}
                 </Button>
               </Link>
             </div>
