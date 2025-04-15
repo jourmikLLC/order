@@ -27,26 +27,6 @@ function OrderDetailPage() {
     fetchOrderDetails();
   }, [orderId]);
 
-  const handleDispatch = async () => {
-    try {
-      // Update order status to dispatched
-      const response = await fetch(`${API_URL}/orders/${orderId}/dispatch`, {
-        method: "PUT",
-      });
-      const updatedOrder = await response.json();
-
-      if (updatedOrder.status === "Dispatched") {
-        toast.success("Order dispatched successfully!");
-        setOrder(updatedOrder);
-      } else {
-        toast.error("Failed to dispatch order.");
-      }
-    } catch (error) {
-      console.error("Error dispatching order:", error);
-      toast.error("Error dispatching order.");
-    }
-  };
-
   const goBack = () => navigate(-1);
 
   if (!order) return <div>Loading...</div>;
