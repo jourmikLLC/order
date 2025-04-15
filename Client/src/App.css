@@ -1,6 +1,6 @@
 .ant-message-notice-content {
-  font-size: 20px !important;
-  font-size: 50px;
+  /* font-size: 20px !important; */
+  font-size: 60px;
   font-weight: bold !important;
   padding: 15px !important;
   text-align: center;
@@ -17,18 +17,24 @@
   background-color: #faad14 !important;
 } */
 .ant-message .anticon {
-  font-size: 50px !important; /* Increase SVG icon size */
+  font-size: 150px !important; /* Increase SVG icon size */
 }
 .ant-message-notice-content {
-  /* display: flex; */
+  display: flex;
   align-items: center; /* Ensures vertical alignment */
   gap: 10px; /* Space between SVG and text */
 }
 .ant-message-notice-content svg {
-  width: 30px;
-  height: 30px;
+  width: 120px;
+  height: 120px;
 }
 button{
     font-weight: 700 !important;
     color: white !important;
+}
+/* .btn2{
+padding-bottom: 40px;
+} */
+.ant-card-head-title{
+  font-size:70px;
 }
