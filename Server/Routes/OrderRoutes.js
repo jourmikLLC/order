@@ -146,7 +146,7 @@ router.post("/scan/validatePartNumbers", async (req, res) => {
 });
 
 // Assuming Express + Mongoose or similar
-app.post("/orders/scan/markDispatched", async (req, res) => {
+app.post("/scan/markDispatched", async (req, res) => {
   const { trackingId, dispatchedAt } = req.body;
 
   try {
