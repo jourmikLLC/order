@@ -32,7 +32,10 @@ function OrderDetailPage() {
   if (!order) return <div>Loading...</div>;
 
   return (
-    <div className="container" style={{ paddingTop: "50px" }}>
+    <div
+      className="container-fluid"
+      style={{ background: "rgb(247, 247, 247)", paddingTop: "50px" }}
+    >
       <div className="row justify-content-center">
         <div className="col-md-8">
           {/* Back Button */}
@@ -43,7 +46,6 @@ function OrderDetailPage() {
               padding: "12px 12px",
               fontSize: "20px",
               background: "#02335f",
-
               display: "flex",
               alignItems: "center",
               marginBottom: "20px",
@@ -57,7 +59,7 @@ function OrderDetailPage() {
 
           {/* Order Details Card */}
           <Card
-            title={`Order ID: ${order._id}`}
+            title={`Order ID: ${order.orderId}`}
             style={{
               borderRadius: "12px",
               boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
@@ -83,13 +85,18 @@ function OrderDetailPage() {
                 <strong>Part Numbers:</strong>
               </p>
               <ul>
-                {order.entries
-                  .flatMap((entry) => entry.partNumbers)
-                  .map((pn, index) => (
-                    <li key={index}>
-                      <strong>Part {index + 1}:</strong> {pn}
-                    </li>
-                  ))}
+                {order.entries.flatMap((entry, entryIndex) => (
+                  <li key={entryIndex}>
+                    <strong>Entry {entryIndex + 1}:</strong>
+                    <ul>
+                      {entry.partNumbers.map((pn, index) => (
+                        <li key={index}>
+                          <strong>Part {index + 1}:</strong> {pn}
+                        </li>
+                      ))}
+                    </ul>
+                  </li>
+                ))}
               </ul>
 
               <p>
@@ -103,9 +110,17 @@ function OrderDetailPage() {
                   {order.status}
                 </span>
               </p>
+
+              {/* Display dispatched date if order is dispatched */}
+              {order.status === "Dispatched" && order.dispatchedAt && (
+                <p>
+                  <strong>Dispatched At: </strong>
+                  {new Date(order.dispatchedAt).toLocaleString()}
+                </p>
+              )}
             </div>
 
-            {/* Dispatch Button */}
+            {/* Dispatch Button - Uncomment if you want to add functionality */}
             {/* {order.status !== "Dispatched" && (
               <div className="text-center">
                 <Button

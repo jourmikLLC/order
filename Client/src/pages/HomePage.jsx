@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Button, Card } from "antd"; // Importing Ant Design components
-import { toast } from "react-hot-toast"; // Importing React Hot Toast
-
+import { Button, Card } from "antd";
+import { toast } from "react-hot-toast";
+import LogoutButton from "../components/logout";
 const HomePage = () => {
-  // Show success toast on button click
+  const [role, setRole] = useState(null);
+
+  useEffect(() => {
+    const storedRole = localStorage.getItem("role");
+    setRole(storedRole);
+  }, []);
+
   const handleCreateOrderClick = () => {
     toast.success("Navigating to create a new order...");
   };
@@ -18,10 +24,14 @@ const HomePage = () => {
       className="container-fluid"
       style={{
         height: "100vh",
-        paddingTop: "60px",
+        paddingTop: "20px",
         backgroundColor: "#f4f6f9",
       }}
     >
+      <div className="d-flex justify-content-end ">
+        <LogoutButton /> {/* Add LogoutButton here */}
+      </div>
+
       <div className="row justify-content-center">
         <div className="col">
           <Card
@@ -44,37 +54,29 @@ const HomePage = () => {
               backgroundColor: "#fff",
             }}
           >
-            {/* <h4
-              className="text-center"
-              style={{
-                color: "#34495e",
-                fontSize: "60px",
-                marginBottom: "30px",
-              }}
-            >
-              {/* Manage your orders with ease 
-            </h4> */}
-
-            <div className="text-center">
-              <Link to="/order-entry">
-                <Button
-                  type="primary"
-                  size="large"
-                  block
-                  onClick={handleCreateOrderClick}
-                  style={{
-                    marginBottom: "15px",
-                    borderRadius: "8px",
-                    fontSize: "40px",
-                    padding: "40px 40px 100px",
-                    backgroundColor: "#2980b9",
-                    borderColor: "#2980b9",
-                  }}
-                >
-                  Create New Order
-                </Button>
-              </Link>
-            </div>
+            {/* ✅ Show only for admin after role is loaded */}
+            {role === "admin" && (
+              <div className="text-center">
+                <Link to="/order-entry">
+                  <Button
+                    type="primary"
+                    size="large"
+                    block
+                    onClick={handleCreateOrderClick}
+                    style={{
+                      marginBottom: "15px",
+                      borderRadius: "8px",
+                      fontSize: "40px",
+                      padding: "40px 40px 100px",
+                      backgroundColor: "#2980b9",
+                      borderColor: "#2980b9",
+                    }}
+                  >
+                    Create New Order
+                  </Button>
+                </Link>
+              </div>
+            )}
 
             <div className="text-center">
               <Link to="/orders-details">
@@ -86,7 +88,6 @@ const HomePage = () => {
                   style={{
                     borderRadius: "8px",
                     marginBottom: "15px",
-
                     fontSize: "40px",
                     padding: "40px 40px 100px",
                     backgroundColor: "#f1c40f",
@@ -98,27 +99,7 @@ const HomePage = () => {
               </Link>
             </div>
 
-            {/* <div className="text-center">
-              <Link to="/orders-scan">
-                <Button
-                  type="default"
-                  size="large"
-                  block
-                  onClick={handleOrdersDetailsClick}
-                  style={{
-                    borderRadius: "8px",
-                    fontSize: "40px",
-                    padding:"40px",
-                    backgroundColor: "rgb(15 241 92)",
-                    borderColor: "#f1c40f",
-                  }}
-                  disabled
-                >
-                  Scan Orders
-                </Button>
-              </Link>
-            </div> */}
-            <div className="text-center  mt-2">
+            <div className="text-center mt-2">
               <Link to="/orders-scan">
                 <Button
                   type="default"

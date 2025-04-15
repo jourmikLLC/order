@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Input, Button, Form, Card } from "antd";
 import toast from "react-hot-toast";
 import axios from "axios";
+
 const API_URL = import.meta.env.VITE_API_URL; // Read from .env
 
 function LoginPage() {
@@ -12,11 +13,26 @@ function LoginPage() {
   });
   const navigate = useNavigate();
 
+  // Check if the user is already logged in by verifying the presence of a token
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate("/"); // Redirect to homepage if already logged in
+    }
+  }, [navigate]);
+
   const handleLogin = async () => {
     try {
       const { data } = await axios.post(`${API_URL}/login`, credentials);
-      localStorage.setItem("token", data.token);
-      navigate("/");
+      console.log("Login Response:", data);
+
+      // Store access token and refresh token in localStorage
+      localStorage.setItem("token", data.token); // Store the access token
+      localStorage.setItem("role", data.user.role); // Store the user's role
+      localStorage.setItem("refreshToken", data.refreshToken); // Store the refresh token
+      localStorage.setItem("role", data.user.role); // Store the user's role
+
+      navigate("/"); // Redirect to homepage
       toast.success("Login successful!");
     } catch (error) {
       toast.error(error.response?.data?.message || "Login failed");

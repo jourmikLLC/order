@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Card, Button, Select, Table, DatePicker, Input, Row, Col } from "antd";
 import { toast } from "react-hot-toast";
 import { ArrowLeftOutlined } from "@ant-design/icons";
+const role = localStorage.getItem("role");
 
 const { Search } = Input;
 const API_URL = import.meta.env.VITE_API_URL;
@@ -143,15 +144,19 @@ function OrderDetails() {
       key: "createdAt",
       render: (date) => new Date(date).toLocaleString(),
     },
-    {
-      title: "Action",
-      key: "action",
-      render: (_, record) => (
-        <Link to={`/order/${record._id}`}>
-          <Button type="primary">View</Button>
-        </Link>
-      ),
-    },
+    ...(role === "admin"
+      ? [
+          {
+            title: "Action",
+            key: "action",
+            render: (_, record) => (
+              <Link to={`/order/${record._id}`}>
+                <Button type="primary">View</Button>
+              </Link>
+            ),
+          },
+        ]
+      : []),
   ];
 
   return (
