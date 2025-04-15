@@ -73,6 +73,24 @@ router.get("/:id", async (req, res) => {
     res.status(500).json({ message: "Error fetching order details", error: err.message });
   }
 });
+// ✅ Edit/Update Order
+router.put("/:id", async (req, res) => {
+  try {
+    const updatedOrder = await Order.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true, runValidators: true } // Return updated doc and validate
+    );
+
+    if (!updatedOrder) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    res.json({ message: "Order updated successfully", order: updatedOrder });
+  } catch (err) {
+    res.status(500).json({ message: "Error updating order", error: err.message });
+  }
+});
 
 // ✅ Update Order Status to "Dispatched"
 router.put("/:id/dispatch", async (req, res) => {

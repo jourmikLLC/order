@@ -189,7 +189,7 @@ function OrderDetails() {
             render: (_, record) => (
               <div>
                 <Link to={`/order/${record._id}`}>
-                  <Button type="primary">View</Button>
+                  <Button type="primary">Edit</Button>
                 </Link>
                 <Button
                   type="danger"

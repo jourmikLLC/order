@@ -1,31 +1,59 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Button, Card } from "antd";
+import { Button, Card, Input, Select, Form } from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { toast } from "react-hot-toast";
 
-const API_URL = import.meta.env.VITE_API_URL; // Read from .env
+const { TextArea } = Input;
+const { Option } = Select;
+const API_URL = import.meta.env.VITE_API_URL;
 
 function OrderDetailPage() {
   const { orderId } = useParams();
   const [order, setOrder] = useState(null);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  const [form] = Form.useForm();
+
   useEffect(() => {
-    // Fetch order details
     const fetchOrderDetails = async () => {
       try {
         const response = await fetch(`${API_URL}/orders/${orderId}`);
         const data = await response.json();
         setOrder(data);
+        form.setFieldsValue(data);
       } catch (error) {
-        console.error("Error fetching order details:", error);
         toast.error("Failed to fetch order details.");
       }
     };
 
     fetchOrderDetails();
-  }, [orderId]);
+  }, [orderId, form]);
+
+  const handleUpdateOrder = async (values) => {
+    try {
+      setLoading(true);
+      const response = await fetch(`${API_URL}/orders/${orderId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        toast.success("Order updated successfully!");
+        navigate(-1); // go back
+      } else {
+        toast.error(data.message || "Update failed");
+      }
+    } catch (error) {
+      toast.error("Update failed");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const goBack = () => navigate(-1);
 
@@ -43,103 +71,78 @@ function OrderDetailPage() {
             type="link"
             onClick={goBack}
             style={{
-              padding: "12px 12px",
+              padding: "12px",
               fontSize: "20px",
               background: "#02335f",
               display: "flex",
               alignItems: "center",
               marginBottom: "20px",
+              color: "#fff",
             }}
           >
-            <ArrowLeftOutlined
-              style={{ marginRight: "10px", fontSize: "20px" }}
-            />
+            <ArrowLeftOutlined style={{ marginRight: "10px" }} />
             Back to Orders
           </Button>
 
-          {/* Order Details Card */}
+          {/* Order Edit Form */}
           <Card
-            title={`Order ID: ${order.orderId}`}
+            title={`Edit Order: ${order.orderId}`}
             style={{
               borderRadius: "12px",
               boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
               padding: "30px",
             }}
           >
-            <h3
-              className="text-center"
-              style={{ fontSize: "28px", marginBottom: "20px" }}
+            <Form
+              layout="vertical"
+              form={form}
+              onFinish={handleUpdateOrder}
+              initialValues={order}
             >
-              Order Details
-            </h3>
+              <Form.Item
+                label="Customer Name"
+                name="customerName"
+                rules={[{ required: true }]}
+              >
+                <Input />
+              </Form.Item>
 
-            <div style={{ paddingBottom: "20px", fontSize: "18px" }}>
-              <p>
-                <strong>Customer Name:</strong> {order.customerName}
-              </p>
-              <p>
-                <strong>Tracking ID:</strong> {order.trackingId}
-              </p>
+              <Form.Item
+                label="Tracking ID"
+                name="trackingId"
+                rules={[{ required: true }]}
+              >
+                <Input />
+              </Form.Item>
 
-              <p>
-                <strong>Part Numbers:</strong>
-              </p>
-              <ul>
-                {order.entries.flatMap((entry, entryIndex) => (
-                  <li key={entryIndex}>
-                    <strong>Entry {entryIndex + 1}:</strong>
-                    <ul>
-                      {entry.partNumbers.map((pn, index) => (
-                        <li key={index}>
-                          <strong>Part {index + 1}:</strong> {pn}
-                        </li>
-                      ))}
-                    </ul>
-                  </li>
-                ))}
-              </ul>
+              <Form.Item
+                label="Status"
+                name="status"
+                rules={[{ required: true }]}
+              >
+                <Select>
+                  <Option value="Pending">Pending</Option>
+                  <Option value="Dispatched">Dispatched</Option>
+                </Select>
+              </Form.Item>
 
-              <p>
-                <strong>Status: </strong>
-                <span
-                  style={{
-                    fontWeight: "bold",
-                    color: order.status === "Dispatched" ? "green" : "orange",
-                  }}
-                >
-                  {order.status}
-                </span>
-              </p>
+              <Form.Item label="Dispatched At" name="dispatchedAt">
+                <Input placeholder="ISO Date String (optional)" />
+              </Form.Item>
 
-              {/* Display dispatched date if order is dispatched */}
-              {order.status === "Dispatched" && order.dispatchedAt && (
-                <p>
-                  <strong>Dispatched At: </strong>
-                  {new Date(order.dispatchedAt).toLocaleString()}
-                </p>
-              )}
-            </div>
+              {/* Additional editable fields can go here */}
 
-            {/* Dispatch Button - Uncomment if you want to add functionality */}
-            {/* {order.status !== "Dispatched" && (
-              <div className="text-center">
+              <Form.Item>
                 <Button
                   type="primary"
-                  size="large"
-                  onClick={handleDispatch}
-                  style={{
-                    borderRadius: "8px",
-                    fontSize: "18px",
-                    padding: "10px 30px",
-                    backgroundColor: "green",
-                    borderColor: "green",
-                    color: "white",
-                  }}
+                  htmlType="submit"
+                  loading={loading}
+                  style={{ width: "100%", marginTop: "20px" }}
                 >
-                  Dispatch Order
+                  Save Changes
                 </Button>
-              </div>
-            )} */}
+              </Form.Item>
+            </Form>
           </Card>
         </div>
       </div>
