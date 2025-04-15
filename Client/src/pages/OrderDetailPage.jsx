@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Button, Card, Input, Select, Form } from "antd";
+import { Button, Card, Input, Select, Form, DatePicker } from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { toast } from "react-hot-toast";
+import dayjs from "dayjs";
 
-const { TextArea } = Input;
 const { Option } = Select;
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -13,7 +13,6 @@ function OrderDetailPage() {
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
   const [form] = Form.useForm();
 
   useEffect(() => {
@@ -22,7 +21,13 @@ function OrderDetailPage() {
         const response = await fetch(`${API_URL}/orders/${orderId}`);
         const data = await response.json();
         setOrder(data);
-        form.setFieldsValue(data);
+
+        // Preprocess date fields for antd DatePicker
+        form.setFieldsValue({
+          ...data,
+          dispatchedAt: data.dispatchedAt ? dayjs(data.dispatchedAt) : null,
+          createdAt: data.createdAt ? dayjs(data.createdAt) : null,
+        });
       } catch (error) {
         toast.error("Failed to fetch order details.");
       }
@@ -34,17 +39,25 @@ function OrderDetailPage() {
   const handleUpdateOrder = async (values) => {
     try {
       setLoading(true);
+      const payload = {
+        ...values,
+        dispatchedAt: values.dispatchedAt
+          ? values.dispatchedAt.toISOString()
+          : null,
+        createdAt: values.createdAt ? values.createdAt.toISOString() : null,
+      };
+
       const response = await fetch(`${API_URL}/orders/${orderId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+        body: JSON.stringify(payload),
       });
 
       const data = await response.json();
 
       if (response.ok) {
         toast.success("Order updated successfully!");
-        navigate(-1); // go back
+        navigate(-1);
       } else {
         toast.error(data.message || "Update failed");
       }
@@ -62,7 +75,7 @@ function OrderDetailPage() {
   return (
     <div
       className="container-fluid"
-      style={{ background: "rgb(247, 247, 247)", paddingTop: "50px" }}
+      style={{ background: "#f7f7f7", paddingTop: "50px" }}
     >
       <div className="row justify-content-center">
         <div className="col-md-8">
@@ -93,15 +106,34 @@ function OrderDetailPage() {
               padding: "30px",
             }}
           >
-            <Form
-              layout="vertical"
-              form={form}
-              onFinish={handleUpdateOrder}
-              initialValues={order}
-            >
+            <Form layout="vertical" form={form} onFinish={handleUpdateOrder}>
               <Form.Item
                 label="Customer Name"
                 name="customerName"
+                rules={[{ required: true }]}
+              >
+                <Input />
+              </Form.Item>
+
+              <Form.Item
+                label="Order ID"
+                name="orderId"
+                rules={[{ required: true }]}
+              >
+                <Input />
+              </Form.Item>
+
+              <Form.Item
+                label="Serial Number"
+                name="serialNo"
+                rules={[{ required: true }]}
+              >
+                <Input />
+              </Form.Item>
+
+              <Form.Item
+                label="Platform"
+                name="platform"
                 rules={[{ required: true }]}
               >
                 <Input />
@@ -123,14 +155,76 @@ function OrderDetailPage() {
                 <Select>
                   <Option value="Pending">Pending</Option>
                   <Option value="Dispatched">Dispatched</Option>
+                  <Option value="Completed">Completed</Option>
                 </Select>
               </Form.Item>
 
-              <Form.Item label="Dispatched At" name="dispatchedAt">
-                <Input placeholder="ISO Date String (optional)" />
+              {/* <Form.Item label="Dispatched At" name="dispatchedAt">
+                <DatePicker
+                  showTime
+                  format="YYYY-MM-DD HH:mm:ss"
+                  style={{ width: "100%" }}
+                />
               </Form.Item>
 
-              {/* Additional editable fields can go here */}
+              <Form.Item label="Created At" name="createdAt">
+                <DatePicker
+                  showTime
+                  format="YYYY-MM-DD HH:mm:ss"
+                  style={{ width: "100%" }}
+                />
+              </Form.Item> */}
+
+              {/* Render entries with part numbers */}
+              <Form.List name="entries">
+                {(fields) => (
+                  <div>
+                    <h5 className="mt-3">Part Entries</h5>
+                    {fields.map((field, i) => (
+                      <div
+                        key={field.key}
+                        style={{
+                          marginBottom: "20px",
+                          padding: "15px",
+                          border: "1px solid #ccc",
+                          borderRadius: "10px",
+                        }}
+                      >
+                        <Form.Item
+                          label={`Part Number Count`}
+                          name={[field.name, "partNumberCount"]}
+                          rules={[{ required: true }]}
+                        >
+                          <Select>
+                            {[1, 2, 3, 4, 5].map((count) => (
+                              <Option key={count} value={count}>
+                                {count}
+                              </Option>
+                            ))}
+                          </Select>
+                        </Form.Item>
+
+                        <Form.List name={[field.name, "partNumbers"]}>
+                          {(partFields) => (
+                            <div>
+                              {partFields.map((pf, j) => (
+                                <Form.Item
+                                  key={pf.key}
+                                  label={`Part Number ${j + 1}`}
+                                  name={[pf.name]}
+                                  rules={[{ required: true }]}
+                                >
+                                  <Input />
+                                </Form.Item>
+                              ))}
+                            </div>
+                          )}
+                        </Form.List>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </Form.List>
 
               <Form.Item>
                 <Button
