@@ -23,13 +23,13 @@ const HomePage = () => {
       }}
     >
       <div className="row justify-content-center">
-        <div className="col-md-8">
+        <div className="col">
           <Card
             title={
               <span
                 style={{
                   color: "#02335f",
-                  fontSize: "32px",
+                  fontSize: "60px",
                   fontWeight: "bold",
                 }}
               >
@@ -44,16 +44,16 @@ const HomePage = () => {
               backgroundColor: "#fff",
             }}
           >
-            <h4
+            {/* <h4
               className="text-center"
               style={{
                 color: "#34495e",
-                fontSize: "20px",
+                fontSize: "60px",
                 marginBottom: "30px",
               }}
             >
-              Manage your orders with ease
-            </h4>
+              {/* Manage your orders with ease */}
+            </h4> */}
 
             <div className="text-center">
               <Link to="/order-entry">
