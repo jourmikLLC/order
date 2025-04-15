@@ -83,9 +83,9 @@ function WarehouseList() {
 
   return (
     <div style={{ padding: "30px" }}>
-      <h1 style={{ fontSize: "55px", marginBottom: "30px" }}>
+      {/* <h1 style={{ fontSize: "55px", marginBottom: "30px" }}>
         Today's Pending Orders
-      </h1>
+      </h1> */}
       <Table
         dataSource={visibleOrders}
         columns={columns}
