@@ -6,7 +6,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 message.config({
   top: 100,
-  duration: 2,
+  duration: 1,
 });
 
 // Audio files in the public/sounds folder
