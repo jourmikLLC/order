@@ -38,7 +38,7 @@ function WarehouseList() {
   useEffect(() => {
     const intervalId = setInterval(() => {
       fetchOrders();
-    }, 5000); // 10 seconds
+    }, 3000); // 10 seconds
 
     return () => clearInterval(intervalId); // Cleanup on unmount
   }, []);
