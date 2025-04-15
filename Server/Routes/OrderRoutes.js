@@ -153,7 +153,7 @@ router.post("/scan/markDispatched", async (req, res) => {
     const updated = await Order.findOneAndUpdate(
       { trackingId },
       {
-        status: "dispatched",
+        status: "Dispatched",
         dispatchedAt: new Date(dispatchedAt),
       },
       { new: true }
