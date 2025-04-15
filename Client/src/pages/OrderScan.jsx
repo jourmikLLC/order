@@ -3,13 +3,15 @@ import { Input, Button, Card, message, Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 
 const API_URL = import.meta.env.VITE_API_URL;
-const errorBeep = new Audio("/sounds/error-beep.mp3");
-const successBeep = new Audio("/sounds/success-beep.mp3");
 
 message.config({
   top: 100,
   duration: 3,
 });
+
+// Audio files in the public/sounds folder
+const errorBeep = new Audio("/sounds/error-beep.mp3");
+const successBeep = new Audio("/sounds/success-beep.mp3");
 
 function OrdersScan() {
   const [trackingId, setTrackingId] = useState("");
@@ -18,7 +20,7 @@ function OrdersScan() {
   const [scannedPart, setScannedPart] = useState("");
   const [trackingIdValid, setTrackingIdValid] = useState(false);
   const [scannedParts, setScannedParts] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false); // Loading state
 
   const fetchOrder = async () => {
     setLoading(true);
@@ -40,16 +42,16 @@ function OrdersScan() {
         setScannedPart("");
         setScannedParts([]);
         message.success(`Tracking ID verified: ${trackingId}`);
-        successBeep.play();
+        successBeep.play(); // Play success sound
       } else {
         message.error("Invalid Tracking ID. Please try again.");
-        errorBeep.play();
-        setTrackingId(""); // clear tracking input
+        errorBeep.play(); // Play error sound
+        setTrackingId(""); // 👈 Clear tracking ID input
       }
     } catch (error) {
       message.error("⚠️ Error fetching order. Try again.");
-      errorBeep.play();
-      setTrackingId(""); // clear tracking input
+      errorBeep.play(); // Play error sound
+      setTrackingId(""); // 👈 Clear tracking ID input
     }
     setLoading(false);
   };
@@ -57,15 +59,14 @@ function OrdersScan() {
   const verifyPartNumber = async () => {
     if (!scannedPart) {
       message.error("⚠️ Please enter a Part Number.");
-      errorBeep.play();
-      setScannedPart(""); // clear part input
+      errorBeep.play(); // Play error sound
       return;
     }
 
     if (scannedParts.includes(scannedPart)) {
       message.warning("⚠️ This part has already been scanned.");
-      setScannedPart(""); // clear part input
-      errorBeep.play();
+      setScannedPart(""); // Reset input
+      errorBeep.play(); // Play error sound
       return;
     }
 
@@ -93,24 +94,26 @@ function OrdersScan() {
         ) {
           setCurrentPartIndex(currentPartIndex + 1);
           message.success(`Part ${currentPartIndex + 1} matched.`);
+          successBeep.play(); // Play success sound
         } else {
           message.success("🎉 All parts matched. Order ready for dispatch!");
-          successBeep.play();
+          successBeep.play(); // Play success sound
           resetState();
         }
       } else {
         message.error("Wrong Part Number. Please scan again.");
-        errorBeep.play();
-        setScannedPart(""); // clear part input
+        errorBeep.play(); // Play error sound
+        setScannedPart(""); // 👈 Clear scanned part input
       }
     } catch (error) {
       message.error("⚠️ Error verifying Part Number. Try again.");
-      errorBeep.play();
-      setScannedPart(""); // clear part input
+      errorBeep.play(); // Play error sound
+      setScannedPart(""); // 👈 Clear scanned part input
     }
     setLoading(false);
   };
 
+  // Reset state after order completion
   const resetState = () => {
     setOrder(null);
     setTrackingId("");
@@ -118,29 +121,11 @@ function OrdersScan() {
     setScannedParts([]);
   };
 
+  // Handle barcode scanner auto-submit
   const handleKeyPress = (event, type) => {
     if (event.key === "Enter") {
       if (type === "tracking") fetchOrder();
       if (type === "part") verifyPartNumber();
-    }
-  };
-
-  const handlePaste = async (e, type) => {
-    e.preventDefault();
-    const pastedText = (e.clipboardData || window.clipboardData)
-      .getData("text")
-      .trim();
-
-    if (type === "tracking") {
-      setTrackingId(pastedText);
-      await new Promise((resolve) => setTimeout(resolve, 20));
-      fetchOrder();
-    }
-
-    if (type === "part") {
-      setScannedPart(pastedText);
-      await new Promise((resolve) => setTimeout(resolve, 20));
-      verifyPartNumber();
     }
   };
 
@@ -157,7 +142,9 @@ function OrdersScan() {
       }}
     >
       <Card
+        // title="📦 Warehouse Order Dispatching System"
         style={{
+          // width: "600px",
           padding: "20px",
           textAlign: "center",
           fontSize: "70px",
@@ -205,13 +192,13 @@ function OrdersScan() {
                   }
                 />
               ) : (
-                "Verify Tracking ID"
+                <span className="">Verify Tracking ID</span>
               )}
             </Button>
           </>
         ) : (
           <>
-            <p>
+            <p style={{}}>
               🔢 Scanning Part {currentPartIndex + 1} of{" "}
               {order.entries.flatMap((entry) => entry.partNumbers).length}
             </p>
@@ -230,8 +217,9 @@ function OrdersScan() {
                 marginTop: "10px",
                 width: "100%",
                 fontSize: "40px",
+                // paddingBottom: "60px !important",
                 padding: "40px 40px 80px",
-                paddingBottom: "40px",
+                paddingBottom: "80px",
                 fontWeight: "bold",
                 borderRadius: "8px",
                 backgroundColor: "#1890ff",
@@ -250,7 +238,7 @@ function OrdersScan() {
                   }
                 />
               ) : (
-                "Verify Part No"
+                <span className="">Verify Part No</span>
               )}
             </Button>
           </>
