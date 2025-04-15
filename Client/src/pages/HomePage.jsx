@@ -65,7 +65,8 @@ const HomePage = () => {
                   style={{
                     marginBottom: "15px",
                     borderRadius: "8px",
-                    fontSize: "18px",
+                    fontSize: "40px",
+                    padding: "40px 40px 80px",
                     backgroundColor: "#2980b9",
                     borderColor: "#2980b9",
                   }}
@@ -86,7 +87,8 @@ const HomePage = () => {
                     borderRadius: "8px",
                     marginBottom: "15px",
 
-                    fontSize: "18px",
+                    fontSize: "40px",
+                    padding: "40px 40px 80px",
                     backgroundColor: "#f1c40f",
                     borderColor: "#f1c40f",
                   }}
@@ -96,7 +98,7 @@ const HomePage = () => {
               </Link>
             </div>
 
-            <div className="text-center">
+            {/* <div className="text-center">
               <Link to="/orders-scan">
                 <Button
                   type="default"
@@ -105,7 +107,8 @@ const HomePage = () => {
                   onClick={handleOrdersDetailsClick}
                   style={{
                     borderRadius: "8px",
-                    fontSize: "18px",
+                    fontSize: "40px",
+                    padding:"40px",
                     backgroundColor: "rgb(15 241 92)",
                     borderColor: "#f1c40f",
                   }}
@@ -114,8 +117,8 @@ const HomePage = () => {
                   Scan Orders
                 </Button>
               </Link>
-            </div>
-            <div className="text-center mt-2">
+            </div> */}
+            <div className="text-center p-2 mt-2">
               <Link to="/orders-scan2">
                 <Button
                   type="default"
@@ -124,7 +127,8 @@ const HomePage = () => {
                   onClick={handleOrdersDetailsClick}
                   style={{
                     borderRadius: "8px",
-                    fontSize: "18px",
+                    fontSize: "40px",
+                    padding: "40px 40px 80px",
                     backgroundColor: "rgb(45 211 22)",
                     borderColor: "#f6c40f",
                   }}
