@@ -112,8 +112,8 @@ const HomePage = () => {
                     marginBottom: "15px",
                     fontSize: "40px",
                     padding: "40px 40px 100px",
-                    backgroundColor: "rgb(241 15 237)",
-                    borderColor: "rgb(241 15 237)",
+                    backgroundColor: "#f10fed",
+                    borderColor: "#f10fed",
                   }}
                 >
                   Warehouse List{" "}
