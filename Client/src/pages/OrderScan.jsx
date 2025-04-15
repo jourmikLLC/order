@@ -96,8 +96,29 @@ function OrdersScan() {
           message.success(`Part ${currentPartIndex + 1} matched.`);
           successBeep.play(); // Play success sound
         } else {
-          message.success("🎉 All parts matched. Order ready for dispatch!");
-          successBeep.play(); // Play success sound
+          const dispatchResponse = await fetch(
+            `${API_URL}/orders/scan/markDispatched`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                trackingId,
+                dispatchedAt: new Date().toISOString(), // Send current time
+              }),
+            }
+          );
+
+          const dispatchData = await dispatchResponse.json();
+
+          if (dispatchResponse.ok) {
+            message.success("🎉 Order marked as dispatched!");
+            successBeep.play();
+          } else {
+            message.warning(
+              `All parts matched, but dispatch failed: ${dispatchData.message}`
+            );
+            errorBeep.play();
+          }
           resetState();
         }
       } else {
@@ -249,7 +270,7 @@ function OrdersScan() {
 }
 
 export default OrdersScan;
-// import React, { useState } from "react";
+
 // import { Input, Button, Card, message, Spin } from "antd";
 // import { LoadingOutlined } from "@ant-design/icons";
 

@@ -24,9 +24,11 @@ const OrderDetailsEntry = () => {
               type="link"
               icon={<ArrowLeftOutlined />}
               onClick={goBack}
+              className="btn3"
               style={{
                 fontSize: "18px",
-                color: "#2980b9",
+                background: "#02335f",
+                color: "#2980b9 !important",
                 display: "flex",
                 alignItems: "center",
                 marginBottom: "20px",

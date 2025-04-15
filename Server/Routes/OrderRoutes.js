@@ -145,6 +145,30 @@ router.post("/scan/validatePartNumbers", async (req, res) => {
   }
 });
 
+// Assuming Express + Mongoose or similar
+app.post("/orders/scan/markDispatched", async (req, res) => {
+  const { trackingId, dispatchedAt } = req.body;
+
+  try {
+    const updated = await Order.findOneAndUpdate(
+      { trackingId },
+      {
+        status: "dispatched",
+        dispatchedAt: new Date(dispatchedAt),
+      },
+      { new: true }
+    );
+
+    if (!updated) {
+      return res.status(404).json({ message: "Order not found." });
+    }
+
+    res.json({ message: "Order marked as dispatched.", order: updated });
+  } catch (error) {
+    console.error("Dispatch error:", error);
+    res.status(500).json({ message: "Server error." });
+  }
+});
 
 
 export default router;

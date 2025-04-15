@@ -60,8 +60,10 @@ function OrderDetailPage() {
             type="link"
             onClick={goBack}
             style={{
-              padding: "12px 0",
+              padding: "12px 12px",
               fontSize: "20px",
+              background: "#02335f",
+
               display: "flex",
               alignItems: "center",
               marginBottom: "20px",

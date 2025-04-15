@@ -66,7 +66,7 @@ const HomePage = () => {
                     marginBottom: "15px",
                     borderRadius: "8px",
                     fontSize: "40px",
-                    padding: "40px 40px 80px",
+                    padding: "40px 40px 100px",
                     backgroundColor: "#2980b9",
                     borderColor: "#2980b9",
                   }}
@@ -88,7 +88,7 @@ const HomePage = () => {
                     marginBottom: "15px",
 
                     fontSize: "40px",
-                    padding: "40px 40px 80px",
+                    padding: "40px 40px 100px",
                     backgroundColor: "#f1c40f",
                     borderColor: "#f1c40f",
                   }}
@@ -118,8 +118,8 @@ const HomePage = () => {
                 </Button>
               </Link>
             </div> */}
-            <div className="text-center p-2 mt-2">
-              <Link to="/orders-scan2">
+            <div className="text-center  mt-2">
+              <Link to="/orders-scan">
                 <Button
                   type="default"
                   size="large"
@@ -128,7 +128,7 @@ const HomePage = () => {
                   style={{
                     borderRadius: "8px",
                     fontSize: "40px",
-                    padding: "40px 40px 80px",
+                    padding: "40px 40px 100px",
                     backgroundColor: "rgb(45 211 22)",
                     borderColor: "#f6c40f",
                   }}

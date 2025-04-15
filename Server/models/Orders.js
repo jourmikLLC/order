@@ -13,11 +13,8 @@ const orderSchema = new mongoose.Schema(
     orderId: { type: String, required: true },
     trackingId: { type: String, required: true, unique: true },
     entries: [entrySchema], // Array of entries
-    status: {
-      type: String,
-      enum: ["Pending", "Dispatched"],
-      default: "Pending",
-    },
+status: { type: String, default: "pending" },
+dispatchedAt: { type: Date },
   },
   { timestamps: true }
 );
