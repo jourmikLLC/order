@@ -104,6 +104,7 @@ function WarehouseList() {
         rowKey="_id"
         pagination={false}
         bordered
+        rowClassName={(_, index) => `row-color-${index % 4}`}
       />
     </div>
   );
