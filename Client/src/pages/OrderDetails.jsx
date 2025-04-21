@@ -154,13 +154,13 @@ function OrderDetails() {
       title: "Part Numbers",
       key: "partNumbers",
       render: (_, record) => (
-        <ul style={{ margin: 0, paddingLeft: "20px" }}>
+        <ol style={{ margin: 0, paddingLeft: "20px" }}>
           {record.entries
             .flatMap((entry) => entry.partNumbers)
             .map((pn, i) => (
               <li key={i}>{pn}</li>
             ))}
-        </ul>
+        </ol>
       ),
     },
     {

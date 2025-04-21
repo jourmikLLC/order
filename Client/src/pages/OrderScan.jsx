@@ -35,7 +35,15 @@ function OrdersScan() {
       );
 
       const data = await response.json();
+
       if (data.order) {
+        if (data.order.status === "Dispatched") {
+          message.warning("⚠️ This order has already been dispatched.");
+          errorBeep.play(); // Optional: still play error beep
+          setTrackingId(""); // Clear input
+          setLoading(false);
+          return;
+        }
         setOrder(data.order);
         setTrackingIdValid(true);
         setCurrentPartIndex(0);
