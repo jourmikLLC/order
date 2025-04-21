@@ -4,11 +4,11 @@ import Order from "../models/Orders.js";
 const router = express.Router();
 
 const validateOrderInput = (req, res, next) => {
-  const { customerName, trackingId, entries, orderId, serialNo, platform } = req.body;
+  const { customerName, trackingId, entries, orderId, platform } = req.body;
 console.log(req.body);
 
-  if (!customerName || !orderId || !trackingId || !entries || !Array.isArray(entries) || entries.length === 0 || !serialNo || !platform) {
-    return res.status(400).json({ message: "Invalid input! Required: customerName, trackingId, orderId, serialNo, Platform, and at least one entry." });
+  if (!customerName || !orderId || !trackingId || !entries || !Array.isArray(entries)  || !platform) {
+    return res.status(400).json({ message: "Invalid input! Required: customerName, trackingId, orderId, Platform, and at least one entry." });
   }
 
   for (const entry of entries) {
@@ -26,12 +26,15 @@ console.log(req.body);
 // ✅ Create Order
 router.post("/", validateOrderInput, async (req, res) => {
   try {
-    const { customerName, trackingId, entries, orderId, serialNo, platform } = req.body;
+    const { customerName, trackingId, entries, orderId, platform } = req.body;
 console.log(req.body);
     const existingOrder = await Order.findOne({ trackingId });
     if (existingOrder) {
       return res.status(400).json({ message: "Tracking ID already exists. Please use a unique tracking ID." });
     }
+     const lastOrder = await Order.findOne().sort({ serialNo: -1 });
+    const serialNo = lastOrder?.serialNo ? lastOrder.serialNo + 1 : 1;
+
     const newOrder = new Order({
       customerName,
       trackingId,

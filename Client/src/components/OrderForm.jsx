@@ -35,7 +35,7 @@ function OrderForm() {
         orderId: values.orderId,
         customerName: values.customerName,
         trackingId: values.trackingId,
-        serialNo: values.serialNo,
+        // serialNo: values.serialNo,
         platform: values.platform,
         status: values.status || "Pending", // Default to 'Pending' if not specified
         dispatchedAt: values.dispatchedAt ? values.dispatchedAt.format() : null,
@@ -89,13 +89,13 @@ function OrderForm() {
           <Input placeholder="Enter Tracking ID" />
         </Form.Item>
 
-        <Form.Item
+        {/* <Form.Item
           label="Serial Number"
           name="serialNo"
           rules={[{ required: true, message: "Enter serial number!" }]}
         >
           <Input placeholder="Enter Serial Number" />
-        </Form.Item>
+        </Form.Item> */}
 
         <Form.Item
           label="Platform"
