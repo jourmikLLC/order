@@ -3,10 +3,16 @@ import { Input, Button, Card, message, Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 
 const API_URL = import.meta.env.VITE_API_URL;
+const getPartCountMap = (parts) => {
+  return parts.reduce((map, part) => {
+    map[part] = (map[part] || 0) + 1;
+    return map;
+  }, {});
+};
 
 message.config({
   top: 100,
-  duration: 1,
+  duration: 3,
 });
 
 // Audio files in the public/sounds folder
@@ -39,8 +45,8 @@ function OrdersScan() {
       if (data.order) {
         if (data.order.status === "Dispatched") {
           message.warning("⚠️ This order has already been dispatched.");
-          errorBeep.play(); // Optional: still play error beep
-          setTrackingId(""); // Clear input
+          errorBeep.play();
+          setTrackingId("");
           setLoading(false);
           return;
         }
@@ -63,18 +69,26 @@ function OrdersScan() {
     }
     setLoading(false);
   };
-
   const verifyPartNumber = async () => {
     if (!scannedPart) {
       message.error("⚠️ Please enter a Part Number.");
-      errorBeep.play(); // Play error sound
+      errorBeep.play();
       return;
     }
 
-    if (scannedParts.includes(scannedPart)) {
-      message.warning("⚠️ This part has already been scanned.");
-      setScannedPart(""); // Reset input
-      errorBeep.play(); // Play error sound
+    const allParts = order.entries.flatMap((entry) => entry.partNumbers);
+    const expectedPartsMap = getPartCountMap(allParts);
+    const scannedPartsMap = getPartCountMap(scannedParts);
+
+    const alreadyScannedCount = scannedPartsMap[scannedPart] || 0;
+    const expectedCount = expectedPartsMap[scannedPart] || 0;
+
+    if (alreadyScannedCount >= expectedCount) {
+      message.warning(
+        "⚠️ This part has already been scanned the required number of times."
+      );
+      setScannedPart("");
+      errorBeep.play();
       return;
     }
 
@@ -92,18 +106,15 @@ function OrdersScan() {
       const data = await response.json();
 
       if (data.message === "Part number matched.") {
-        setScannedParts([...scannedParts, scannedPart]);
+        setScannedParts((prev) => [...prev, scannedPart]);
         setScannedPart("");
         successBeep.play();
 
-        if (
-          currentPartIndex + 1 <
-          order.entries.flatMap((entry) => entry.partNumbers).length
-        ) {
-          setCurrentPartIndex(currentPartIndex + 1);
-          message.success(`Part ${currentPartIndex + 1} matched.`);
-          successBeep.play(); // Play success sound
+        if (scannedParts.length + 1 < allParts.length) {
+          setCurrentPartIndex(scannedParts.length + 1);
+          message.success(`✅ Part ${scannedParts.length + 1} matched.`);
         } else {
+          // All parts scanned, dispatch order
           const dispatchResponse = await fetch(
             `${API_URL}/orders/scan/markDispatched`,
             {
@@ -111,7 +122,7 @@ function OrdersScan() {
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
                 trackingId,
-                dispatchedAt: new Date().toISOString(), // Send current time
+                dispatchedAt: new Date().toISOString(),
               }),
             }
           );
@@ -128,17 +139,18 @@ function OrdersScan() {
             );
             errorBeep.play();
           }
+
           resetState();
         }
       } else {
-        message.error("Wrong Part Number. Please scan again.");
-        errorBeep.play(); // Play error sound
-        setScannedPart(""); // 👈 Clear scanned part input
+        message.error("❌ Wrong Part Number. Please scan again.");
+        errorBeep.play();
+        setScannedPart("");
       }
     } catch (error) {
       message.error("⚠️ Error verifying Part Number. Try again.");
-      errorBeep.play(); // Play error sound
-      setScannedPart(""); // 👈 Clear scanned part input
+      errorBeep.play();
+      setScannedPart("");
     }
     setLoading(false);
   };
