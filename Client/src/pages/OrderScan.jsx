@@ -34,24 +34,16 @@ function OrdersScan() {
     return value.replace(/\D/g, ""); // Remove all non-digit characters
   };
 
-  // const handlePaste = async (e, type) => {
-  //   e.preventDefault();
-  //   const pastedText = (e.clipboardData || window.clipboardData)
-  //     .getData("text")
-  //     .trim();
+  const handlePaste = async (e, type) => {
+    // e.preventDefault();
 
-  //   if (type === "tracking") {
-  //     setTrackingId(pastedText);
-  //     await new Promise((resolve) => setTimeout(resolve, 20));
-  //     fetchOrder();
-  //   }
+    // Get the pasted text
+    const pastedText = (e.clipboardData || window.clipboardData)
+      .getData("text")
+      .trim();
+    const sanitizedText = sanitizeInput(pastedText); // Sanitize the pasted input
+  };
 
-  //   if (type === "part") {
-  //     setScannedPart(pastedText);
-  //     await new Promise((resolve) => setTimeout(resolve, 20));
-  //     verifyPartNumber();
-  //   }
-  // };
   const fetchOrder = async () => {
     setLoading(true);
     const cleanedTrackingId = sanitizeInput(trackingId); // ensure it's numeric
@@ -196,6 +188,7 @@ function OrdersScan() {
 
   // Handle barcode scanner auto-submit
   const handleKeyPress = (event, type) => {
+    e.preventDefault();
     if (event.key === "Enter") {
       if (type === "tracking") fetchOrder();
       if (type === "part") verifyPartNumber();
