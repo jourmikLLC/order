@@ -35,7 +35,7 @@ function OrdersScan() {
   };
 
   const handlePaste = async (e, type) => {
-    // e.preventDefault();
+    e.preventDefault();
 
     // Get the pasted text
     const pastedText = (e.clipboardData || window.clipboardData)
@@ -188,7 +188,7 @@ function OrdersScan() {
 
   // Handle barcode scanner auto-submit
   const handleKeyPress = (event, type) => {
-    e.preventDefault();
+    event.preventDefault();
     if (event.key === "Enter") {
       if (type === "tracking") fetchOrder();
       if (type === "part") verifyPartNumber();
