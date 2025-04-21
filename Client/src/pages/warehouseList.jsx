@@ -93,7 +93,7 @@ function WarehouseList() {
   ];
 
   return (
-    <div style={{ padding: "30px", fontWeight: "bold" }}>
+    <div style={{ padding: "0px", fontWeight: "bold" }}>
       {/* <h1 style={{ fontSize: "55px", marginBottom: "30px" }}>
         Today's Pending Orders
       </h1> */}
