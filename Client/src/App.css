@@ -36,6 +36,7 @@ button{
     color: "#2980b9 !important",
 }
 .ant-card-head-title{
+border:1px solid black;
   font-size:70px;
 }
 .warehouse-list .ant-table-cell{
