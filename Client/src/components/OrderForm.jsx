@@ -123,18 +123,29 @@ function OrderForm() {
 
         {entries.map((entry, index) => (
           <div key={index} className="mb-3">
-            <Form.Item label="Number of Part Numbers">
-              <Select
+            <Form.Item
+              label="Number of Part Numbers"
+              rules={[
+                {
+                  required: true,
+                  message: "Please enter number of part numbers",
+                },
+              ]}
+            >
+              <Input
+                type="number"
+                min={1}
                 value={entry.partNumberCount}
-                onChange={(value) => handlePartNumberCountChange(index, value)}
-              >
-                {[1, 2, 3, 4, 5].map((num) => (
-                  <Select.Option key={num} value={num}>
-                    {num}
-                  </Select.Option>
-                ))}
-              </Select>
+                onChange={(e) =>
+                  handlePartNumberCountChange(
+                    index,
+                    parseInt(e.target.value || "1", 10)
+                  )
+                }
+                placeholder="Enter number of part numbers"
+              />
             </Form.Item>
+
             {entry.partNumbers.map((partNumber, pnIndex) => (
               <Form.Item
                 key={pnIndex}
