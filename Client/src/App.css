@@ -39,5 +39,6 @@ button{
   font-size:70px;
 }
 .warehouse-list .ant-table-cell{
-font-size: 60px;
+font-size: 50px !important;
+border:1px solid black;
 }

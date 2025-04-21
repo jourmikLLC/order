@@ -45,24 +45,24 @@ function WarehouseList() {
 
   const columns = [
     {
-      title: "Platform",
+      title: "PlatF",
       dataIndex: "platform",
       key: "platform",
       render: (platform) => (
-        <span style={{ fontSize: "60px" }}>{platform}</span>
+        <span style={{ fontSize: "50px" }}>{platform}</span>
       ),
     },
     {
       title: "Tracking ID",
       dataIndex: "trackingId",
       key: "trackingId",
-      render: (text) => <span style={{ fontSize: "60px" }}>{text}</span>,
+      render: (text) => <span style={{ fontSize: "50px" }}>{text}</span>,
     },
     {
       title: "Customer Name",
       dataIndex: "customerName",
       key: "customerName",
-      render: (text) => <span style={{ fontSize: "60px" }}>{text}</span>,
+      render: (text) => <span style={{ fontSize: "50px" }}>{text}</span>,
     },
     {
       title: "Part Numbers",
@@ -80,7 +80,7 @@ function WarehouseList() {
         }, {});
 
         return (
-          <ol style={{ fontSize: "60px", margin: 0 }}>
+          <ol style={{ fontSize: "50px", margin: 0 }}>
             {Object.entries(partCountMap).map(([part, count], i) => (
               <li style={{ listStyle: "none" }} key={i}>
                 {part} {count > 1 ? `× ${count}` : ""}
