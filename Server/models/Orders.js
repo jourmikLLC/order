@@ -11,7 +11,7 @@ const orderSchema = new mongoose.Schema(
   {
     customerName: { type: String, required: true },
     orderId: { type: String, required: true },
-    serialNo: { type: String, required: true },
+    serialNo: { type: Number, required: true },
     platform: { type: String, required: true },
     trackingId: { type: String, required: true, unique: true },
     entries: [entrySchema], // Array of entries
