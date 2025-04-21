@@ -31,7 +31,7 @@ function OrdersScan() {
   const partInputRef = useRef(null);
 
   const sanitizeInput = (value) => {
-    return value.replace(/\D/g, ""); // Remove all non-digit characters
+    return value; // Remove all non-digit characters
   };
 
   // const handlePaste = async (e, type) => {
