@@ -67,17 +67,28 @@ function WarehouseList() {
     {
       title: "Part Numbers",
       key: "partNumbers",
-      render: (_, record) => (
-        <ul style={{ fontSize: "60px", paddingLeft: "20px", margin: 0 }}>
-          {record.entries
-            ?.flatMap((entry) => entry.partNumbers)
-            .map((pn, i) => (
+      render: (_, record) => {
+        const partList =
+          record.entries?.flatMap((entry) => entry.partNumbers) || [];
+
+        // Create frequency map
+        const partCountMap = partList.reduce((acc, pn) => {
+          if (pn) {
+            acc[pn] = (acc[pn] || 0) + 1;
+          }
+          return acc;
+        }, {});
+
+        return (
+          <ol style={{ fontSize: "60px", margin: 0 }}>
+            {Object.entries(partCountMap).map(([part, count], i) => (
               <li style={{ listStyle: "none" }} key={i}>
-                {pn}
+                {part} {count > 1 ? `× ${count}` : ""}
               </li>
             ))}
-        </ul>
-      ),
+          </ol>
+        );
+      },
     },
   ];
 
@@ -87,6 +98,7 @@ function WarehouseList() {
         Today's Pending Orders
       </h1> */}
       <Table
+        className="warehouse-list"
         dataSource={visibleOrders}
         columns={columns}
         rowKey="_id"

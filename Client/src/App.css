@@ -38,3 +38,6 @@ button{
 .ant-card-head-title{
   font-size:70px;
 }
+.warehouse-list .ant-table-cell{
+font-size: 60px;
+}
