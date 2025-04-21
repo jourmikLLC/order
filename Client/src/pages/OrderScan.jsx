@@ -35,7 +35,7 @@ function OrdersScan() {
   };
 
   const handlePaste = async (e, type) => {
-    e.preventDefault();
+    // e.preventDefault();
 
     // Get the pasted text
     const pastedText = (e.clipboardData || window.clipboardData)
@@ -190,6 +190,8 @@ function OrdersScan() {
   const handleKeyPress = (event, type) => {
     event.preventDefault();
     if (event.key === "Enter") {
+      event.preventDefault(); // Only prevent default for Enter key, to prevent form submission
+
       if (type === "tracking") fetchOrder();
       if (type === "part") verifyPartNumber();
     }
