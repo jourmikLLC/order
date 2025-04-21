@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Input, Button, Card, message, Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 
@@ -27,16 +27,43 @@ function OrdersScan() {
   const [trackingIdValid, setTrackingIdValid] = useState(false);
   const [scannedParts, setScannedParts] = useState([]);
   const [loading, setLoading] = useState(false); // Loading state
+  const trackingInputRef = useRef(null);
+  const partInputRef = useRef(null);
 
+  const sanitizeInput = (value) => {
+    return value.replace(/\D/g, ""); // Remove all non-digit characters
+  };
+
+  // const handlePaste = async (e, type) => {
+  //   e.preventDefault();
+  //   const pastedText = (e.clipboardData || window.clipboardData)
+  //     .getData("text")
+  //     .trim();
+
+  //   if (type === "tracking") {
+  //     setTrackingId(pastedText);
+  //     await new Promise((resolve) => setTimeout(resolve, 20));
+  //     fetchOrder();
+  //   }
+
+  //   if (type === "part") {
+  //     setScannedPart(pastedText);
+  //     await new Promise((resolve) => setTimeout(resolve, 20));
+  //     verifyPartNumber();
+  //   }
+  // };
   const fetchOrder = async () => {
     setLoading(true);
+    const cleanedTrackingId = sanitizeInput(trackingId); // ensure it's numeric
+    setTrackingId(cleanedTrackingId);
+
     try {
       const response = await fetch(
         `${API_URL}/orders/scan/validateTrackingId`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ trackingId }),
+          body: JSON.stringify({ trackingId: cleanedTrackingId }),
         }
       );
 
@@ -94,12 +121,16 @@ function OrdersScan() {
 
     setLoading(true);
     try {
+      const cleanedTrackingId = sanitizeInput(trackingId); // ensure it's numeric
       const response = await fetch(
         `${API_URL}/orders/scan/validatePartNumbers`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ trackingId, partNumber: scannedPart }),
+          body: JSON.stringify({
+            trackingId: cleanedTrackingId,
+            partNumber: scannedPart,
+          }),
         }
       );
 
@@ -201,8 +232,9 @@ function OrdersScan() {
               Enter Tracking ID to fetch order details:
             </p>
             <Input
+              // ref={trackingInputRef}
               value={trackingId}
-              onChange={(e) => setTrackingId(e.target.value)}
+              onChange={(e) => setTrackingId(e.target.value)} // Apply sanitizeInput here
               onKeyPress={(e) => handleKeyPress(e, "tracking")}
               onPaste={(e) => handlePaste(e, "tracking")}
               placeholder="🔍 Scan Tracking ID"
@@ -244,6 +276,7 @@ function OrdersScan() {
               🔢 Scanning Part {currentPartIndex + 1} of{" "}
               {order.entries.flatMap((entry) => entry.partNumbers).length}
             </p>
+
             <Input
               value={scannedPart}
               onChange={(e) => setScannedPart(e.target.value)}
